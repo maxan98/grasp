@@ -1,0 +1,192 @@
+#!/usr/bin/env python3 
+import sys
+import os
+import re
+from bs4 import BeautifulSoup, Tag, NavigableString
+import requests
+import argparse
+from pprint import pprint
+
+# TODO ключ для бэкапа ключ для работы в онлайн и офлайн режиме
+# TODO ключ для бэкапа ключ для работы в онлайн и офлайн режиме
+# TODO ключ для бэкапа ключ для работы в онлайн и офлайн режиме
+# TODO ключ для бэкапа ключ для работы в онлайн и офлайн режиме
+# TODO ключ для бэкапа ключ для работы в онлайн и офлайн режиме
+# TODO ключ для бэкапа ключ для работы в онлайн и офлайн режиме
+# TODO ключ для бэкапа ключ для работы в онлайн и офлайн режиме
+# TODO ключ для бэкапа ключ для работы в онлайн и офлайн режиме
+# TODO ключ для бэкапа ключ для работы в онлайн и офлайн режиме
+# TODO ключ для бэкапа ключ для работы в онлайн и офлайн режиме
+# TODO ключ для бэкапа ключ для работы в онлайн и офлайн режиме
+# TODO ключ для бэкапа ключ для работы в онлайн и офлайн режиме
+# TODO ключ для бэкапа ключ для работы в онлайн и офлайн режиме
+# TODO ключ для бэкапа ключ для работы в онлайн и офлайн режиме
+def prpr(d):
+    for i in d:
+        print(i)
+def site():
+    r = requests.get("http://rasp.guap.ru/").content.decode('utf-8')
+    soup = BeautifulSoup(r, "html.parser")
+    select = soup.find('option',text=group)
+    group_prefix = select.attrs['value']
+
+    r = requests.get("http://rasp.guap.ru/?g="+group_prefix).content.decode('utf-8')
+    return r
+def parseonline(r):
+
+    # r = requests.get("http://rasp.guap.ru/").content.decode('utf-8')
+    # soup = BeautifulSoup(r, "html.parser")
+    # select = soup.find('option',text=group)
+    # group_prefix = select.attrs['value']
+
+    # r = requests.get("http://rasp.guap.ru/?g="+group_prefix).content.decode('utf-8')
+    Soup = BeautifulSoup(r, 'html.parser')
+    days = list(Soup.select('h3'))
+
+    day = []
+    #print(day)
+    for dy in days:
+        day.append(dy.text)
+
+    daysii = list(Soup.select('h4'))
+
+    dayii = []
+    #print(dayii)
+    for dy in daysii:
+        dayii.append(dy.text)
+
+    lenofday = len(day)
+    print("Учимся всего", lenofday, "дня(ей)!")
+
+
+    pairs = Soup.select('.study')
+    #pprint(pairs)
+    #print('df')
+    j = 0
+    cheat = []
+    for i in pairs:
+        str = i
+        #print(day[j])
+       # print(str)
+
+        j+=1
+        #print(i.find('span').text)
+        t = i.find('span').previous
+        tt = t.previous
+        ttt = tt.previous;
+        cheat.append(ttt.previous)
+        cheat.append(t.previous)
+        cheat.append(i.find('span').text)
+        #print('_________________')
+
+    #print(len(pairs),len(day),len(dayii))
+
+    d = {'mon':[],'tue':[],'wed':[],'thu':[],'fri':[],'sat':[],'sun':[]}
+    pattern = re.compile('Понедельник')
+    columns = Soup.find(text=pattern)
+    columns = columns.next
+    #columns = columns.next
+   # print( columns.next.text)
+   # print(columns)
+    #mon pairs detecting
+    # counter = 0
+    # pat = re.compile(group)
+    # while True:
+    #     columns = columns.next
+    #     if isinstance(columns, NavigableString):
+    #         continue
+    #     # if columns.name != 'span':
+    #     #     print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+    #     #     continue
+    #     text = columns.text
+    #
+    #     print(text,'ssds')
+    #     if (text.find('Вторник') == -1):
+    #
+    #         d['mon'].append(columns.text)
+    #
+    #
+    #     else:
+    #         break
+    #TODO РАССОРТИРОВАТЬ НОРМАЛЬНО
+    cases = "Nothing"
+    for i in cheat:
+       if i == 'Понедельник':
+           cases = 'mon'
+       if i == 'Вторник':
+           cases = 'tue'
+       if i == 'Среда':
+           cases = 'wed'
+       if i == 'Четверг':
+           cases = 'thu'
+       if i == 'Пятница':
+           cases = 'fri'
+       if i == 'Суббота':
+           cases = 'sat'
+       if i == 'Вне сетки расписания':
+           cases = 'sun'
+       if i == 'Nothin':
+           continue
+       d[cases].append(i)
+
+
+
+
+    if dz == 'whole':
+           pprint(d)
+    elif dz == 'mon':
+           pprint(d['mon'])
+    elif dz == 'tue':
+           pprint(d['tue'])
+    elif dz == 'wed':
+           pprint(d['wed'])
+    elif dz == 'thu':
+           pprint(d['thu'])
+    elif dz == 'fri':
+           pprint(d['fri'])
+    elif dz == 'sat':
+           pprint(d['sat'])
+    elif dz == 'sun':
+           pprint(d['sun'])
+
+def parseofline():
+  file = open('/Users/sklyarov/Desktop/scripts/cached/'+group,'r')
+  r = file.read()
+  file.close()
+  parseonline(r);
+
+def createParser():
+  parser = argparse.ArgumentParser(description = 'SUAI Online/Offline timetable')
+  return parser
+def cachett():
+  r = requests.get("http://rasp.guap.ru/").content.decode('utf-8')
+  soup = BeautifulSoup(r, "html.parser")
+  select = soup.find('option',text=group)
+  group_prefix = select.attrs['value']
+  r = requests.get("http://rasp.guap.ru/?g="+group_prefix).content.decode('utf-8')
+  if not os.path.exists('/Users/sklyarov/Desktop/scripts/cached'):
+    os.makedirs('/Users/sklyarov/Desktop/scripts/cached')
+  file = open('/Users/sklyarov/Desktop/scripts/cached/'+group,'w')
+  file.write(r)
+  file.close()
+  print('Cached successful! \n File name - ',file.name)
+
+if __name__ == '__main__':
+    parser = createParser()
+    parser.add_argument('-o','--online',help='Online mod',action='store_true')
+    parser.add_argument('-f','--offline',help='Offline mod',action='store_true')
+    parser.add_argument('-c','--cache',help='Cache timetable',action='store_true')
+    parser.add_argument('-g', '--group', default='5512', help= 'Your group number. DEFAULT = 5512')
+    parser.add_argument('-d', '--dz', default='whole', help = 'Day of week. EX. mon;tue;wed;thu;fri;sat;sun')
+    ns = parser.parse_args()
+    group = ns.group
+    dz = ns.dz
+    if ns.cache:
+      cachett()
+    elif ns.online:
+      parseonline(site())
+    elif ns.offline:
+      parseofline()
+    else:
+      print("Wrong usage. Use '-h' for help.")
+    
