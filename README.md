@@ -25,3 +25,9 @@ After that u can use offline mod just running with **-f** key
 **!!!WARNING!!! Notice that if your group numbers contains letters - they r in cyrillic. After decoding utf-8 cyrillic letters and latin letters are not the same! For ex. '8431К'. 'K' must be entered in cyrillic**
 
 Offline mod r very useful cuz SUAI adores shutting down their servers and don't turn the half-week
+
+Im still working on some features and on prettyfying the output.
+
+Now it looks like this :)
+
+![2018-03-04 1 04 46](https://user-images.githubusercontent.com/24477803/36939788-42c074f0-1f48-11e8-9a3f-fc0210a50cd0.png)
