@@ -138,11 +138,17 @@ def parseonline(r):
 
     if dz == 'whole':
            prpr(d['mon'])
+           print('_________________')
            prpr(d['tue'])
+           print('_________________')
            prpr(d['wed'])
+           print('_________________')
            prpr(d['thu'])
+           print('_________________')
            prpr(d['fri'])
+           print('_________________')
            prpr(d['sat'])
+           print('_________________')
            prpr(d['sun'])
     elif dz == 'mon':
            prpr(d['mon'])
