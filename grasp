@@ -23,7 +23,11 @@ from pprint import pprint
 # TODO ключ для бэкапа ключ для работы в онлайн и офлайн режиме
 def prpr(d):
     for i in d:
-        print(i)
+      if i.count(';') != 0:
+        if isinstance(i, NavigableString):
+          continue
+        i.remove(';')
+      print(i,sep='\n')
 def site():
     r = requests.get("http://rasp.guap.ru/").content.decode('utf-8')
     soup = BeautifulSoup(r, "html.parser")
@@ -133,21 +137,27 @@ def parseonline(r):
 
 
     if dz == 'whole':
-           pprint(d)
+           prpr(d['mon'])
+           prpr(d['tue'])
+           prpr(d['wed'])
+           prpr(d['thu'])
+           prpr(d['fri'])
+           prpr(d['sat'])
+           prpr(d['sun'])
     elif dz == 'mon':
-           pprint(d['mon'])
+           prpr(d['mon'])
     elif dz == 'tue':
-           pprint(d['tue'])
+           prpr(d['tue'])
     elif dz == 'wed':
-           pprint(d['wed'])
+           prpr(d['wed'])
     elif dz == 'thu':
-           pprint(d['thu'])
+           prpr(d['thu'])
     elif dz == 'fri':
-           pprint(d['fri'])
+           prpr(d['fri'])
     elif dz == 'sat':
-           pprint(d['sat'])
+           prpr(d['sat'])
     elif dz == 'sun':
-           pprint(d['sun'])
+           prpr(d['sun'])
 
 def parseofline():
   file = open('/Users/sklyarov/Desktop/scripts/cached/'+group,'r')
