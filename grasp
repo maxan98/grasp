@@ -9,11 +9,19 @@ from pprint import pprint
 from colorama import Fore
 from colorama import Style
 
-# TODO определение текущей четности недели + офлайн подсчет четности недели 
-# Затер)
-# Вне сетки расписания дублируется при наличии
+# [FIXED]TODO определение текущей четности недели 
+# офлайн подсчет четности недели 
+# [FIXED]Вне сетки расписания дублируется при наличии 
 # Продолжаем раскрашивать (осталось аудитори и ЕБАННЫЕ ТРЕУГОЛЬНИКИ СУКА РАСКРАСИТЬ)
-
+def week(r):
+  sp = BeautifulSoup(r,'html.parser')
+  select = sp.select('em')
+  if select[0].text[0] == '▲':
+    return 1
+  elif select[0].text[0] == '▼':
+    return 0
+  else:
+    return -1
 def prpr(d):
     for i in d:
       if i.count(';') != 0:
@@ -21,6 +29,9 @@ def prpr(d):
           continue
         i.remove(';')
       print(i,sep='\n')
+
+
+
 def site():
     r = requests.get("http://rasp.guap.ru/").content.decode('utf-8')
     soup = BeautifulSoup(r, "html.parser")
@@ -37,6 +48,12 @@ def parseonline(r):
     # group_prefix = select.attrs['value']
 
     # r = requests.get("http://rasp.guap.ru/?g="+group_prefix).content.decode('utf-8')
+    if week(r) == 0:
+      print(Fore.BLUE+'Сейчас ▼ неделя'+Style.RESET_ALL)
+    elif week(r) == 1:
+      print(Fore.RED+Style.BRIGHT+'Сейчас ▲ неделя'+Style.RESET_ALL)
+    else:
+      print('У меня траблы с определением недели')
     Soup = BeautifulSoup(r, 'html.parser')
     days = list(Soup.select('h3'))
 
@@ -132,6 +149,36 @@ def parseonline(r):
 
 # Баг с подсчетом кол-ва дней. Если есть ВНЕ СЕТКИ РАСПИСАНИЯ ПУНКТ - СЧИТАЛ НЕ ВЕРНО СУКА (FIXED)
 # Раскрашиваем аутпут
+    for i in d['mon']:
+      if len(i) == len(group):
+        d['mon'].remove(i)
+    for i in d['tue']:
+      if len(i) == len(group):
+        d['tue'].remove(i)
+    for i in d['wed']:
+      if len(i) == len(group):
+        d['wed'].remove(i)
+    for i in d['thu']:
+      if len(i) == len(group):
+        d['thu'].remove(i)
+    for i in d['fri']:
+      if i.find('Группа:') != -1:
+        d['fri'].remove(i)
+      if len(i) == len(group):
+        d['fri'].remove(i)
+    for i in d['sat']:
+      if i.find('Группа:') != -1:
+        d['sat'].remove(i)
+      if len(i) == len(group):
+        d['sat'].remove(i)
+    
+    if(nweek == '0'):
+      print()
+      
+
+
+
+          
     d['mon'].insert(0,Fore.BLUE+Style.BRIGHT+'Понедельник'+Style.RESET_ALL)
     if len(d['mon']) > 1:
       d['mon'].pop(1)
@@ -139,6 +186,12 @@ def parseonline(r):
        if d['mon'][i].find('пара ') != -1:
          tmp = d['mon'][i]
          d['mon'][i] = ''+Fore.GREEN+Style.BRIGHT+tmp+Style.RESET_ALL
+       if d['mon'][i].find('▼') != -1:
+        tmp2 = d['mon'][i]
+        d['mon'][i] = ''+Fore.BLUE+Style.BRIGHT+tmp2[0]+Style.RESET_ALL+tmp2[1:]
+       if d['mon'][i].find('▲') != -1:
+        tmp2 = d['mon'][i]
+        d['mon'][i] = ''+Fore.RED+Style.BRIGHT+tmp2[0]+Style.RESET_ALL+tmp2[1:]
     else:
       d['mon'].append('Выходной')
     d['tue'].insert(0,Fore.BLUE+Style.BRIGHT+'Вторник'+Style.RESET_ALL)
@@ -148,6 +201,12 @@ def parseonline(r):
         if d['tue'][i].find('пара ') != -1:
           tmp = d['tue'][i]
           d['tue'][i] = ''+Fore.GREEN+Style.BRIGHT+tmp+Style.RESET_ALL
+        if d['tue'][i].find('▼') != -1:
+         tmp2 = d['tue'][i]
+         d['tue'][i] = ''+Fore.BLUE+Style.BRIGHT+tmp2[0]+Style.RESET_ALL+tmp2[1:]
+        if d['tue'][i].find('▲') != -1:
+         tmp2 = d['tue'][i]
+         d['tue'][i] = ''+Fore.RED+Style.BRIGHT+tmp2[0]+Style.RESET_ALL+tmp2[1:]
     else:
       d['tue'].append('Выходной')
     d['wed'].insert(0,Fore.BLUE+Style.BRIGHT+'Среда'+Style.RESET_ALL)
@@ -157,6 +216,12 @@ def parseonline(r):
         if d['wed'][i].find('пара ') != -1:
           tmp = d['wed'][i]
           d['wed'][i] = ''+Fore.GREEN+Style.BRIGHT+tmp+Style.RESET_ALL
+        if d['wed'][i].find('▼') != -1:
+         tmp2 = d['wed'][i]
+         d['wed'][i] = ''+Fore.BLUE+Style.BRIGHT+tmp2[0]+Style.RESET_ALL+tmp2[1:]
+        if d['wed'][i].find('▲') != -1:
+         tmp2 = d['wed'][i]
+         d['wed'][i] = ''+Fore.RED+Style.BRIGHT+tmp2[0]+Style.RESET_ALL+tmp2[1:]
     else:
       d['wed'].append('Выходной')
     d['thu'].insert(0,Fore.BLUE+Style.BRIGHT+'Четверг'+Style.RESET_ALL)
@@ -166,6 +231,12 @@ def parseonline(r):
         if d['thu'][i].find('пара ') != -1:
           tmp = d['thu'][i]
           d['thu'][i] = ''+Fore.GREEN+Style.BRIGHT+tmp+Style.RESET_ALL
+        if d['thu'][i].find('▼') != -1:
+         tmp2 = d['thu'][i]
+         d['thu'][i] = ''+Fore.BLUE+Style.BRIGHT+tmp2[0]+Style.RESET_ALL+tmp2[1:]
+        if d['thu'][i].find('▲') != -1:
+         tmp2 = d['thu'][i]
+         d['thu'][i] = ''+Fore.RED+Style.BRIGHT+tmp2[0]+Style.RESET_ALL+tmp2[1:]
     else:
       d['thu'].append('Выходной')
     d['fri'].insert(0,Fore.BLUE+Style.BRIGHT+'Пятница'+Style.RESET_ALL)
@@ -175,6 +246,12 @@ def parseonline(r):
         if d['fri'][i].find('пара ') != -1:
           tmp = d['fri'][i]
           d['fri'][i] = ''+Fore.GREEN+Style.BRIGHT+tmp+Style.RESET_ALL
+        if d['fri'][i].find('▼') != -1:
+         tmp2 = d['fri'][i]
+         d['fri'][i] = ''+Fore.BLUE+Style.BRIGHT+tmp2[0]+Style.RESET_ALL+tmp2[1:]
+        if d['fri'][i].find('▲') != -1:
+         tmp2 = d['fri'][i]
+         d['fri'][i] = ''+Fore.RED+Style.BRIGHT+tmp2[0]+Style.RESET_ALL+tmp2[1:]
     else:
       d['fri'].append('Выходной')
     d['sat'].insert(0,Fore.BLUE+Style.BRIGHT+'Суббота'+Style.RESET_ALL)
@@ -184,6 +261,12 @@ def parseonline(r):
         if d['sat'][i].find('пара ') != -1:
           tmp = d['sat'][i]
           d['sat'][i] = ''+Fore.GREEN+Style.BRIGHT+tmp+Style.RESET_ALL
+        if d['sat'][i].find('▼') != -1:
+         tmp2 = d['sat'][i]
+         d['sat'][i] = ''+Fore.BLUE+Style.BRIGHT+tmp2[0]+Style.RESET_ALL+tmp2[1:]
+        if d['sat'][i].find('▲') != -1:
+         tmp2 = d['sat'][i]
+         d['sat'][i] = ''+Fore.RED+Style.BRIGHT+tmp2[0]+Style.RESET_ALL+tmp2[1:]
     else:
       d['sat'].append('Выходной')
     d['sun'].insert(0,Fore.BLUE+Style.BRIGHT+'Вне сетки расписания'+Style.RESET_ALL)
@@ -193,8 +276,10 @@ def parseonline(r):
         if d['sun'][i].find('пара ') != -1:
           tmp = d['sun'][i]
           d['sun'][i] = ''+Fore.GREEN+Style.BRIGHT+tmp+Style.RESET_ALL
+      d['sun'].pop(1)
     else:
       d['sun'].append('Радуйся если тут пусто')
+    
     if dz == 'whole':
            
            prpr(d['mon'])
@@ -260,9 +345,12 @@ if __name__ == '__main__':
     parser.add_argument('-c','--cache',help='Cache timetable',action='store_true')
     parser.add_argument('-g', '--group', default='5512', help= 'Your group number. DEFAULT = 5512')
     parser.add_argument('-d', '--dz', default='whole', help = 'Day of week. EX. mon;tue;wed;thu;fri;sat;sun')
+    parser.add_argument('-w', '--week', default='2', help = 'Red, blue or whole week. EX. 0 = red, 1 = blue, 2 = whole')
+
     ns = parser.parse_args()
     group = ns.group
     dz = ns.dz
+    nweek = ns.week
     if ns.cache:
       cachett()
     elif ns.online:
