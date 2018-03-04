@@ -28,7 +28,8 @@ Offline mod r very useful cuz SUAI adores shutting down their servers and don't 
 
 Im still working on some features and on prettyfying the output.
 
-Now it looks like this :)
+**Now it looks like this :)**
+
 ![2018-03-04 21 16 27](https://user-images.githubusercontent.com/24477803/36948864-e09ae29c-1ff1-11e8-8194-b5a18d942ae8.png)
 
 ###### PREVIOUS VERSIONs SCREENSHOTS
