@@ -8,7 +8,7 @@ import argparse
 from pprint import pprint
 from colorama import Fore
 from colorama import Style
-
+import time
 # [FIXED]TODO определение текущей четности недели 
 # офлайн подсчет четности недели 
 # [FIXED]Вне сетки расписания дублируется при наличии 
@@ -73,7 +73,13 @@ def parseonline(r):
     for i in day:
       if i == 'Вне сетки расписания':
         lenofday -= 1
-    print("Учимся всего", lenofday, "дня(ей)!")
+    if lenofday == 1:
+      print("Учимся всего", lenofday, "день")
+    elif lenofday >=2 and lenofday < 5:
+      print("Учимся всего", lenofday, "дня")
+    elif lenofday >= 5:
+      print("Учимся всего", lenofday, "дней")
+
 
 
     pairs = Soup.select('.study')
@@ -343,13 +349,35 @@ if __name__ == '__main__':
     parser.add_argument('-o','--online',help='Online mod',action='store_true')
     parser.add_argument('-f','--offline',help='Offline mod',action='store_true')
     parser.add_argument('-c','--cache',help='Cache timetable',action='store_true')
+    parser.add_argument('-t','--today',help='Today\'s timetable',action='store_true')
     parser.add_argument('-g', '--group', default='5512', help= 'Your group number. DEFAULT = 5512')
-    parser.add_argument('-d', '--dz', default='whole', help = 'Day of week. EX. mon;tue;wed;thu;fri;sat;sun')
+    parser.add_argument('-d', '--dz', default='whole', help = 'Day of week. EX. mon;tue;wed;thu;fri;sat;sun;tom')
     parser.add_argument('-w', '--week', default='2', help = 'Red, blue or whole week. EX. 0 = red, 1 = blue, 2 = whole')
 
     ns = parser.parse_args()
     group = ns.group
     dz = ns.dz
+    t = time.time()
+    kek = time.localtime(t).tm_wday
+    if dz == 'tom':
+      kek+=1
+      ns.today = True
+    if(ns.today):
+      
+      if kek == 0:
+        dz = 'mon'
+      if kek == 1:
+        dz = 'tue'
+      if kek == 2:
+        dz = 'wed'
+      if kek == 3:
+        dz = 'thu'
+      if kek == 4:
+        dz = 'fri'
+      if kek == 5:
+        dz = 'sat'
+      if kek == 6:
+        dz = 'sun'
     nweek = ns.week
     if ns.cache:
       cachett()
