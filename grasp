@@ -9,6 +9,7 @@ from pprint import pprint
 from colorama import Fore
 from colorama import Style
 import time
+import pickle
 # [FIXED]TODO определение текущей четности недели 
 # офлайн подсчет четности недели 
 # [FIXED]Вне сетки расписания дублируется при наличии 
@@ -45,14 +46,30 @@ def query_yes_no(question, default="no"):
             sys.stdout.write("Please respond with 'yes' or 'no' "
                              "(or 'y' or 'n').\n")
 def week(r):
+
+  ithinkits_res = -1
   sp = BeautifulSoup(r,'html.parser')
   select = sp.select('em')
   if select[0].text[0] == '▲':
-    return 1
+    ithinkits_res = 1
   elif select[0].text[0] == '▼':
-    return 0
+    ithinkits_res = 0
   else:
-    return -1
+    ithinkits_res = -1
+  if ns.offline:
+    with open ('cached/'+group+'.pickle','rb') as pc:
+        data = pickle.load(pc)
+        t = time.time()
+        kek = time.localtime(t)
+        if (int(time.strftime('%W',kek)) - int(time.strftime('%W',data)))%2 == 0:
+          return ithinkits_res
+        else:
+          if ithinkits_res == 1:
+            return 0
+          elif ithinkits_res == 0:
+            return 1
+          else:
+            return -1
 def prpr(d):
     for i in d:
       if i.count(';') != 0:
@@ -194,7 +211,8 @@ def parseonline(r):
         d['tue'].remove(i)
     for i in d['wed']:
       if len(i) == len(group):
-        d['wed'].remove(i)
+        if i != 'Среда':
+          d['wed'].remove(i)
     for i in d['thu']:
       if len(i) == len(group):
         d['thu'].remove(i)
@@ -354,7 +372,7 @@ def parseonline(r):
            prpr(d['sun'])
 
 def parseofline():
-  file = open('/Users/sklyarov/Desktop/scripts/cached/'+group,'r')
+  file = open('cached/'+group,'r')
   r = file.read()
   file.close()
   parseonline(r);
@@ -368,11 +386,16 @@ def cachett():
   select = soup.find('option',text=group)
   group_prefix = select.attrs['value']
   r = requests.get("http://rasp.guap.ru/?g="+group_prefix).content.decode('utf-8')
-  if not os.path.exists('/Users/sklyarov/Desktop/scripts/cached'):
-    os.makedirs('/Users/sklyarov/Desktop/scripts/cached')
-  file = open('/Users/sklyarov/Desktop/scripts/cached/'+group,'w')
+  if not os.path.exists('cached'):
+    os.makedirs('cached')
+  file = open('cached/'+group,'w')
   file.write(r)
   file.close()
+  tlol = time.time()
+  lol = time.localtime(t)
+  with open ('cached/'+group+'.pickle','wb') as f:
+      pickle.dump(lol,f)
+
   print('Cached successful! \n File name - ',file.name)
 
 if __name__ == '__main__':
@@ -419,6 +442,8 @@ if __name__ == '__main__':
         cachett()
       
     elif ns.offline:
+      
+
       parseofline()
     else:
       print(Fore.RED+"Wrong usage. Use '-h' for help."+Style.RESET_ALL)
