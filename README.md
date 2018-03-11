@@ -1,6 +1,9 @@
 # grasp
 SUAI CLI TIMETABLE
 =====================
+A small CLI app written in Python3 for my own use and 4 educational purposes.
+Grasp provides information about the schedule of classes in my university (SUAI). The information is parsed from the official site (rasp.guap.ru) and is provided in a convenient form, with all possible selections, filters and other, the parity of the week is also taken into account. For example - schedule for tomorrow, schedule for Tuesday next week and so on - is a correct request for grasp. A feature is the possibility of correct operation in offline. In offline mode, the current day of the week, the parity of the week and so on are correctly calculated.
+Caching takes place either on a separate key or at the end of the request for a timetable on-line in order to remind the user to periodically re-cache the schedule
 
 Use **util.py** to fast create symlinks and configure access rights.
 
