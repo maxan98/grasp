@@ -26,6 +26,17 @@ import pickle
 
 d = {'mon':[],'tue':[],'wed':[],'thu':[],'fri':[],'sat':[],'sun':[]}
 
+
+
+def customizesimmilar(day):
+  tmp_elem = ''
+  for elem in range(len(d[day])):
+    tmp_elem = d[day][elem]
+    for i in range(elem,len(d[day])):
+      if d[day][i] == tmp_elem:
+        d[day][i] = d[day][i] + ' '
+
+
 def customizetimetabletomatchcurrentweek(mode, day):
   supported_days = ['mon','tue','wed','thu','fri','sat','sun','whole']
   firstp = -1
@@ -417,6 +428,13 @@ def parseonline(r):
 
 
 ### тут фильтранем неделю
+    customizesimmilar('mon')
+    customizesimmilar('tue')
+    customizesimmilar('wed')
+    customizesimmilar('thu')
+    customizesimmilar('fri')
+    customizesimmilar('sat')
+    customizesimmilar('sun')
     weekz = int(nweek)
     if(ns.today):
       weekz = week(r)
