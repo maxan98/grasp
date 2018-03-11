@@ -14,6 +14,82 @@ import pickle
 # офлайн подсчет четности недели 
 # [FIXED]Вне сетки расписания дублируется при наличии 
 # Продолжаем раскрашивать (осталось аудитори и ЕБАННЫЕ ТРЕУГОЛЬНИКИ СУКА РАСКРАСИТЬ)
+
+    ## Начинаем. Будем отставлять верхние треугольники.
+    ## Встречаем 'пара_', если нет то похер не обрабатываем. Значит выходной или тп. Если встретили - запомнили индекс - далее ищем индекс следующего слова 'пара_' - запомнили.
+    ## Смотрим между ними если находим не нужный квадрат - удаляем. После этого смотрим разницу между индексом первой пары и второй - если 1, то удаляем упоминание о первой паре и идем дальше по второй
+    ##
+    ##
+    ##
+    ##
+
+
+d = {'mon':[],'tue':[],'wed':[],'thu':[],'fri':[],'sat':[],'sun':[]}
+
+def customizetimetabletomatchcurrentweek(mode, day):
+  supported_days = ['mon','tue','wed','thu','fri','sat','sun','whole']
+  firstp = -1
+  secp = -1
+  todel = []
+  todel1 = []
+  atleastonepair = False
+  apdel = []
+  modechar = ''
+  if mode == 1:
+    modechar = '▼'
+  elif mode == 0:
+    modechar = '▲'
+  if day == 'whole':
+    customizetimetabletomatchcurrentweek(mode,'mon')
+    customizetimetabletomatchcurrentweek(mode,'tue')
+    customizetimetabletomatchcurrentweek(mode,'wed')
+    customizetimetabletomatchcurrentweek(mode,'thu')
+    customizetimetabletomatchcurrentweek(mode,'fri')
+    customizetimetabletomatchcurrentweek(mode,'sat')
+    customizetimetabletomatchcurrentweek(mode,'sun')
+    return
+
+  #33 если день передали говяный - шлеп в пиздц
+  if day not in supported_days:
+    raise ValueError("invalid day:"+day)
+    ### При выводе фильтровал ; а они были отдельным элементом и индексы сбвали - был костыль. Ниже блок их УДАЛЯЕТ а не просто маскирует
+  for elem in d[day]:
+    if ';' in elem:
+      apdel.append(d[day].index(elem))
+  for i in range(len(apdel)):
+    d[day].pop(apdel[i])
+    for j in range(i,len(apdel)):
+      apdel[j] = apdel[j]-1
+  if mode == 2:
+    return
+  #ОСТАВИТЬ КРАСНУЮ(ВЕРХНЮЮ)
+  for elem in d[day]:
+    if modechar in elem:
+      todel.append(d[day].index(elem))
+
+  ### удаляем время пар когда нужно
+  finaldell = []
+  for i in range(len(todel)):
+    if todel[i]+1 >= len(d[day]):
+      break
+    if 'пара ' in d[day][todel[i]-1] and 'пара ' in d[day][todel[i]+1]:
+      finaldell.append(d[day].index(d[day][todel[i]-1]))
+
+  finaldell.extend(todel)
+  finaldell.sort()
+  #print(finaldell)
+  for i in range(len(finaldell)):
+    d[day].pop(finaldell[i])
+    for j in range(i,len(finaldell)):
+      finaldell[j] = finaldell[j]-1
+
+  if 'пара ' in d[day][len(d[day])-1]:
+    d[day].pop()
+
+    
+          
+
+
 def query_yes_no(question, default="no"):
     """Ask a yes/no question via raw_input() and return their answer.
 
@@ -50,6 +126,7 @@ def week(r):
   ithinkits_res = -1
   sp = BeautifulSoup(r,'html.parser')
   select = sp.select('em')
+  #print(select)
   if select[0].text[0] == '▲':
     ithinkits_res = 1
   elif select[0].text[0] == '▼':
@@ -70,6 +147,8 @@ def week(r):
             return 1
           else:
             return -1
+  else:
+    return ithinkits_res
 def prpr(d):
     for i in d:
       if i.count(';') != 0:
@@ -152,7 +231,7 @@ def parseonline(r):
 
     #print(len(pairs),len(day),len(dayii))
 
-    d = {'mon':[],'tue':[],'wed':[],'thu':[],'fri':[],'sat':[],'sun':[]}
+    global d 
     pattern = re.compile('Понедельник')
     columns = Soup.find(text=pattern)
     columns = columns.next
@@ -226,10 +305,11 @@ def parseonline(r):
         d['sat'].remove(i)
       if len(i) == len(group):
         d['sat'].remove(i)
-    
-    if(nweek == '0'):
-      print()
-      
+
+
+
+
+
 
 
 
@@ -334,7 +414,18 @@ def parseonline(r):
       d['sun'].pop(1)
     else:
       d['sun'].append('Радуйся если тут пусто')
-    
+
+
+### тут фильтранем неделю
+    weekz = int(nweek)
+    if(ns.today):
+      weekz = week(r)
+      if kek == 7:
+        if weekz == 1:
+          weekz = 0
+        elif weekz == 0:
+          weekz = 1
+    customizetimetabletomatchcurrentweek(weekz,dz)
     if dz == 'whole':
            
            prpr(d['mon'])
@@ -411,9 +502,12 @@ if __name__ == '__main__':
     ns = parser.parse_args()
     group = ns.group
     dz = ns.dz
+    nweek = ns.week
+    zavtra = False
     t = time.time()
     kek = time.localtime(t).tm_wday
     if dz == 'tom':
+      zavtra = True
       kek+=1
       ns.today = True
     if(ns.today):
@@ -432,7 +526,10 @@ if __name__ == '__main__':
         dz = 'sat'
       if kek == 6:
         dz = 'sun'
-    nweek = ns.week
+      if kek == 7:
+        dz = 'mon'
+
+    
     if ns.cache:
       cachett()
     elif ns.online:
