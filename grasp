@@ -25,8 +25,8 @@ import pickle
 
 
 d = {'mon':[],'tue':[],'wed':[],'thu':[],'fri':[],'sat':[],'sun':[]}
-
-
+onlinesbor = '-1'
+oflinesbor = '-2'
 
 def customizesimmilar(day):
   tmp_elem = ''
@@ -38,7 +38,7 @@ def customizesimmilar(day):
 
 
 def customizetimetabletomatchcurrentweek(mode, day):
-  supported_days = ['mon','tue','wed','thu','fri','sat','sun','whole']
+  supported_days = ('mon','tue','wed','thu','fri','sat','sun','whole')
   firstp = -1
   secp = -1
   todel = []
@@ -425,6 +425,22 @@ def parseonline(r):
       d['sun'].pop(1)
     else:
       d['sun'].append('Радуйся если тут пусто')
+    global onlinesbor
+    onlinesbor = Soup.select('span')[0].text
+    try:
+      file = open('cached/'+group,'r')
+      rr = file.read()
+      file.close()
+      global oflinesbor
+      spp = BeautifulSoup(rr,'html.parser')
+
+      oflinesbor = spp.select('span')[0].text
+    except IOError:
+      print('File doesnt exists! Trry 2 rerun util.py or u kust never cached this group\'s timetable before.')
+      
+      
+    
+
 
 
 ### тут фильтранем неделю
@@ -435,7 +451,10 @@ def parseonline(r):
     customizesimmilar('fri')
     customizesimmilar('sat')
     customizesimmilar('sun')
-    weekz = int(nweek)
+    if nweek != 'c':
+        weekz = int(nweek)
+    else:
+        weekz = week(r)
     if(ns.today):
       weekz = week(r)
       if kek == 7:
@@ -481,7 +500,11 @@ def parseonline(r):
            prpr(d['sun'])
 
 def parseofline():
-  file = open('cached/'+group,'r')
+  try:
+    file = open('cached/'+group,'r')
+  except IOError:
+    print('File doesnt exists! Trry 2 rerun util.py')
+    exit()
   r = file.read()
   file.close()
   parseonline(r);
@@ -515,7 +538,7 @@ if __name__ == '__main__':
     parser.add_argument('-t','--today',help=Fore.RED+Style.BRIGHT+'Today\'s'+Style.RESET_ALL+' timetable',action='store_true')
     parser.add_argument('-g', '--group', default='5512', help= 'Your group number. DEFAULT = 5512')
     parser.add_argument('-d', '--dz', default='whole', help = 'Day of week. EX.'+Fore.RED+Style.BRIGHT+'TOMORROW(tom)'+Style.RESET_ALL+', MONDAY(mon), TUESDAY(tue), WEDNESDAY(wed) ans so on..')
-    parser.add_argument('-w', '--week', default='2', help = 'Red, blue or whole week. EX. 0 = red, 1 = blue, 2 = whole')
+    parser.add_argument('-w', '--week', default='2', help = 'Red, blue or whole week. EX. 0 = red, 1 = blue, 2 = whole c = current')
 
     ns = parser.parse_args()
     group = ns.group
@@ -552,9 +575,13 @@ if __name__ == '__main__':
       cachett()
     elif ns.online:
       parseonline(site())
-      if query_yes_no('Would you like to cache timetable for this group?'):
-        print('Caching..')
-        cachett()
+      #print(onlinesbor)
+      if onlinesbor != oflinesbor:
+        if query_yes_no('Would you like to cache timetable for this group?'):
+          print('Caching..')
+          cachett()
+      else:
+        print('Timetable is up to date')
       
     elif ns.offline:
       
