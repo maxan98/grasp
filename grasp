@@ -8,6 +8,7 @@ import argparse
 from pprint import pprint
 from colorama import Fore
 from colorama import Style
+from colorama import init
 import time
 import pickle
 # [FIXED]TODO определение текущей четности недели 
@@ -436,7 +437,9 @@ def parseonline(r):
 
       oflinesbor = spp.select('span')[0].text
     except IOError:
-      print('File doesnt exists! Trry 2 rerun util.py or u kust never cached this group\'s timetable before.')
+      print(Fore.RED+Style.BRIGHT+'No cached timetable exists! Try 2 rerun util.py or u just never cached this group\'s timetable before. If so, do it NOW!'+Style.RESET_ALL)
+      oflinesbor = onlinesbor+'FAKE WRONG'
+
       
       
     
@@ -531,6 +534,7 @@ def cachett():
   print('Cached successful! \n File name - ',file.name)
 
 if __name__ == '__main__':
+    init()
     parser = createParser()
     parser.add_argument('-o','--online',help=Fore.RED+Style.BRIGHT+'[REQUIRED] Online'+Style.RESET_ALL+' mod',action='store_true')
     parser.add_argument('-f','--offline',help=Fore.RED+Style.BRIGHT+'[REQUIRED] Offline'+Style.RESET_ALL+' mod',action='store_true')
@@ -538,7 +542,7 @@ if __name__ == '__main__':
     parser.add_argument('-t','--today',help=Fore.RED+Style.BRIGHT+'Today\'s'+Style.RESET_ALL+' timetable',action='store_true')
     parser.add_argument('-g', '--group', default='5512', help= 'Your group number. DEFAULT = 5512')
     parser.add_argument('-d', '--dz', default='whole', help = 'Day of week. EX.'+Fore.RED+Style.BRIGHT+'TOMORROW(tom)'+Style.RESET_ALL+', MONDAY(mon), TUESDAY(tue), WEDNESDAY(wed) ans so on..')
-    parser.add_argument('-w', '--week', default='2', help = 'Red, blue or whole week. EX. 0 = red, 1 = blue, 2 = whole c = current')
+    parser.add_argument('-w', '--week', default='2', help = 'Red, blue or whole week. EX. 0 = blue ▼, 1 = red ▲, 2 = whole c = current')
 
     ns = parser.parse_args()
     group = ns.group
