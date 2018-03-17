@@ -9,7 +9,8 @@ def createsymlink(path2original):
 		os.chmod(os.path.abspath(path2original),7550)
 		os.symlink(os.path.abspath(path2original),'/usr/bin/'+path2original)
 	else:
-		print('Bad OS')
+		print('Bad OS. If win we\'ll try oyr best.')
+		os.sys.path.append(os.getcwd())
 
 if __name__ == '__main__':
 	
