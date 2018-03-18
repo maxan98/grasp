@@ -551,7 +551,7 @@ def main():
     global dz
     global t
     global kek
-    vers = 3.9
+    vers = 4.0
     group = ns.group
     dz = ns.dz
     nweek = ns.week
