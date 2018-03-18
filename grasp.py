@@ -551,7 +551,7 @@ def main():
     global dz
     global t
     global kek
-
+    vers = '3.8'
     group = ns.group
     dz = ns.dz
     nweek = ns.week
@@ -593,6 +593,18 @@ def main():
           cachett()
       else:
         print('Timetable is up to date')
+        req = requests.get('https://raw.githubusercontent.com/maxan98/grasp/master/setup.py').content.decode('utf-8')
+        ver = float(req[784:787])
+        if vers < ver:
+          if query_yes_no('A new version of app is available. Update now?', default = 'no'):
+            if subprocess.call(["pip3", "install","git+https://github.com/maxan98/grasp.git"]) != 0:
+              if subprocess.call(["pip", "install","git+https://github.com/maxan98/grasp.git"]) != 0:
+                print('Updated!')
+            else:
+              print('Updated!')
+        else:
+          print('App is up to date.')
+
       
     elif ns.offline:
       
