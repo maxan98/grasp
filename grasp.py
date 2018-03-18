@@ -558,7 +558,7 @@ def main():
     if(ns.version):
       print(vers)
       exit()
-        if(ns.onlineversion):
+    if(ns.onlineversion):
       req = requests.get('https://raw.githubusercontent.com/maxan98/grasp/master/setup.py').content.decode('utf-8')
       ver = float(req[784:787])
       print(ver)
