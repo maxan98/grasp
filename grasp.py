@@ -437,7 +437,7 @@ def parseonline(r):
 
       oflinesbor = spp.select('span')[0].text
     except IOError:
-      print(Fore.RED+Style.BRIGHT+'No cached timetable exists! Try 2 rerun util.py or u just never cached this group\'s timetable before. If so, do it NOW!'+Style.RESET_ALL)
+      print(Fore.RED+Style.BRIGHT+'No cached timetable exists! Try 2 reinstall using pip install -U or u just never cached this group\'s timetable before. If so, do it NOW!'+Style.RESET_ALL)
       oflinesbor = onlinesbor+'FAKE WRONG'
 
       
