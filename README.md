@@ -16,7 +16,7 @@ Currently worling only under python 3.x. The only thing u need 2 run this util i
 
 After installing python u re ready to install the app :)
 
-**pip / GITHUB (THE EASIEST WAY)**
+**pip / Github (THE EASIEST WAY)**
 ```
 pip install git+https://github.com/maxan98/grasp.git
 ```
