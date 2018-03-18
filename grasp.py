@@ -11,6 +11,7 @@ from colorama import Style
 from colorama import init
 import time
 import pickle
+import subprocess
 # [FIXED]TODO определение текущей четности недели 
 # офлайн подсчет четности недели 
 # [FIXED]Вне сетки расписания дублируется при наличии 
@@ -551,7 +552,7 @@ def main():
     global dz
     global t
     global kek
-    vers = 4.0
+    vers = 4.1
     group = ns.group
     dz = ns.dz
     nweek = ns.week
