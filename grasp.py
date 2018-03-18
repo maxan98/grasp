@@ -554,14 +554,14 @@ def main():
     global dz
     global t
     global kek
-    vers = 4.3
+    vers = 4.4
     if(ns.version):
-      print(vers)
+      print('Version:',vers)
       exit()
     if(ns.onlineversion):
       req = requests.get('https://raw.githubusercontent.com/maxan98/grasp/master/setup.py').content.decode('utf-8')
       ver = float(req[784:787])
-      print(ver)
+      print('Online version:',ver)
       exit()
     group = ns.group
     dz = ns.dz
