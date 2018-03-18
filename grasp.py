@@ -551,7 +551,7 @@ def main():
     global dz
     global t
     global kek
-    vers = '3.8'
+    vers = '3.9'
     group = ns.group
     dz = ns.dz
     nweek = ns.week
@@ -597,8 +597,8 @@ def main():
         ver = float(req[784:787])
         if vers < ver:
           if query_yes_no('A new version of app is available. Update now?', default = 'no'):
-            if subprocess.call(["pip3", "install","git+https://github.com/maxan98/grasp.git"]) != 0:
-              if subprocess.call(["pip", "install","git+https://github.com/maxan98/grasp.git"]) != 0:
+            if subprocess.call(["pip3", "install", "-U","git+https://github.com/maxan98/grasp.git"]) != 0:
+              if subprocess.call(["pip", "install", "-U","git+https://github.com/maxan98/grasp.git"]) != 0:
                 print('Updated!')
             else:
               print('Updated!')
