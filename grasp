@@ -1,4 +1,4 @@
-#!/usr/bin/env python3 
+#!/usr/bin/env python3
 import sys
 import os
 import re
@@ -533,7 +533,7 @@ def cachett():
 
   print('Cached successful! \n File name - ',file.name)
 
-if __name__ == '__main__':
+def main():
     init()
     parser = createParser()
     parser.add_argument('-o','--online',help=Fore.RED+Style.BRIGHT+'[REQUIRED] Online'+Style.RESET_ALL+' mod',action='store_true')
@@ -543,8 +543,15 @@ if __name__ == '__main__':
     parser.add_argument('-g', '--group', default='5512', help= 'Your group number. DEFAULT = 5512')
     parser.add_argument('-d', '--dz', default='whole', help = 'Day of week. EX.'+Fore.RED+Style.BRIGHT+'TOMORROW(tom)'+Style.RESET_ALL+', MONDAY(mon), TUESDAY(tue), WEDNESDAY(wed) ans so on..')
     parser.add_argument('-w', '--week', default='2', help = 'Red, blue or whole week. EX. 0 = blue ▼, 1 = red ▲, 2 = whole c = current')
-
+    global ns
     ns = parser.parse_args()
+    global group
+    global nweek
+    global zavtra
+    global dz
+    global t
+    global kek
+
     group = ns.group
     dz = ns.dz
     nweek = ns.week
@@ -593,4 +600,6 @@ if __name__ == '__main__':
       parseofline()
     else:
       print(Fore.RED+"Wrong usage. Use '-h' for help."+Style.RESET_ALL)
+if __name__ == '__main__':
+  main()
     
