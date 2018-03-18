@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Copyright 2012-2018 Matt Martz
+# Copyright 2012-2018 Max Sklyarov
 # All Rights Reserved.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -39,6 +39,12 @@ setup(
             'timetable-suai=grasp:main'
         ]
     },
+    install_requires=[
+        'colorama',
+        'beautifulsoup4',
+        'requests',
+        'argparse'
+    ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Programming Language :: Python',
