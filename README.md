@@ -1,13 +1,49 @@
-# grasp
+
+
+# 
 SUAI CLI TIMETABLE
-=====================
+
 A small CLI app written in Python3 for my own use and 4 educational purposes.
 Grasp provides information about the schedule of classes in my university (SUAI). The information is parsed from the official site (rasp.guap.ru) and is provided in a convenient form, with all possible selections, filters and other, the parity of the week is also taken into account. For example - schedule for tomorrow, schedule for Tuesday next week and so on - is a correct request for grasp. A feature is the possibility of correct operation in offline. In offline mode, the current day of the week, the parity of the week and so on are correctly calculated.
 Caching takes place either on a separate key or at the end of the request for a timetable on-line in order to remind the user to periodically re-cache the schedule
 
-Use **util.py** to fast create symlinks and configure access rights.
 
-**!!!WARNING!!! util.py is currently unavailable for all not posix os**
+## Getting Started
+
+Currently worling only under python 3.x. The only thing u need 2 run this util is Python! Just download it from python.org
+
+### Installing
+
+After installing python u re ready to install the app :)
+
+**pip / GITHUB (THE EASIEST WAY)**
+```
+pip install git+https://github.com/maxan98/grasp.git
+```
+
+or
+
+```
+git clone https://github.com/maxan98/grasp.git
+python grasp/setup.py install
+```
+**Just download (Like the way it used to be)**
+```
+wget -O grasp https://raw.githubusercontent.com/maxan98/grasp/master/grasp.py
+chmod +x grasp
+```
+or
+
+```
+curl -Lo grasp https://raw.githubusercontent.com/maxan98/grasp/master/grasp.py
+chmod +x grasp
+```
+
+End with an example of getting some data out of the system or using it for a little demo
+
+## Usage/help/screenshots/additional info
+
+
 
 All info and help u can find just running with -h key.
 Output of -h key:
@@ -19,7 +55,7 @@ Supports offline as well as online mod.
 
 2 use offline mod, u ned to cache timetable for your group first:
 
-` grasp -c(--cache) -g(--group) xxxxx(5512 is default)`
+`grasp -c(--cache) -g(--group) xxxxx(5512 is default)`
 
 or just check your Timetable once in online mod. After that u will be asked 2 cache your tt automatically:
 
@@ -52,6 +88,7 @@ If omitted:
 
 Default for group is 5512.
 For day is WHOLE
+For week is both
 
 **!!!WARNING!!! Notice that if your group numbers contains letters - they r in cyrillic. After decoding utf-8 cyrillic letters and latin letters are not the same! For ex. '8431К'. 'K' must be entered in cyrillic**
 
