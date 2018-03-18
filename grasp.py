@@ -541,6 +541,8 @@ def main():
     parser.add_argument('-f','--offline',help=Fore.RED+Style.BRIGHT+'[REQUIRED] Offline'+Style.RESET_ALL+' mod',action='store_true')
     parser.add_argument('-c','--cache',help=Fore.RED+Style.BRIGHT+'[REQUIRED] Cache '+Style.RESET_ALL+'timetable',action='store_true')
     parser.add_argument('-t','--today',help=Fore.RED+Style.BRIGHT+'Today\'s'+Style.RESET_ALL+' timetable',action='store_true')
+    parser.add_argument('-V','--version',help = 'prints version and exit',action='store_true')
+    parser.add_argument('-ov','--onlineversion',help = 'prints version stored in online repository and exit',action='store_true')
     parser.add_argument('-g', '--group', default='5512', help= 'Your group number. DEFAULT = 5512')
     parser.add_argument('-d', '--dz', default='whole', help = 'Day of week. EX.'+Fore.RED+Style.BRIGHT+'TOMORROW(tom)'+Style.RESET_ALL+', MONDAY(mon), TUESDAY(tue), WEDNESDAY(wed) ans so on..')
     parser.add_argument('-w', '--week', default='2', help = 'Red, blue or whole week. EX. 0 = blue ▼, 1 = red ▲, 2 = whole c = current')
@@ -552,7 +554,15 @@ def main():
     global dz
     global t
     global kek
-    vers = 4.2
+    vers = 4.3
+    if(ns.version):
+      print(vers)
+      exit()
+        if(ns.onlineversion):
+      req = requests.get('https://raw.githubusercontent.com/maxan98/grasp/master/setup.py').content.decode('utf-8')
+      ver = float(req[784:787])
+      print(ver)
+      exit()
     group = ns.group
     dz = ns.dz
     nweek = ns.week
