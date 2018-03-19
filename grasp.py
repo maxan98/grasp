@@ -179,7 +179,7 @@ def prpr(d):
 
 
 def site():
-    if sebug:
+    if debug:
       t4 = time.time()
     r = requests.get("http://rasp.guap.ru/").content.decode('utf-8')
     soup = BeautifulSoup(r, "html.parser")
@@ -571,7 +571,7 @@ def main():
     global t
     global kek
     global debug
-    vers = 4.5
+    vers = 4.6
     if ns.verbose:
       debug = True
     if(ns.version):
