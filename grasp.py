@@ -138,8 +138,7 @@ def query_yes_no(question, default="no"):
     if debug:
         print('queryyesno',time.time()-t2)
 def week(r):
-  if debug:
-    t3 = time.time()
+
   ithinkits_res = -1
   sp = BeautifulSoup(r,'html.parser')
   select = sp.select('em')
@@ -164,8 +163,10 @@ def week(r):
             return 1
           else:
             return -1
+
   else:
     return ithinkits_res
+
 def prpr(d):
     for i in d:
       if i.count(';') != 0:
@@ -173,8 +174,7 @@ def prpr(d):
           continue
         i.remove(';')
       print(i,sep='\n')
-    if debug:
-      print('week',time.time()-t3)
+    
 
 
 
