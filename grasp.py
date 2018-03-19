@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 import sys
 import os
 import re
+import time
 from bs4 import BeautifulSoup, Tag, NavigableString
 import requests
 import argparse
@@ -12,18 +14,7 @@ from colorama import init
 import time
 import pickle
 import subprocess
-# [FIXED]TODO определение текущей четности недели 
-# офлайн подсчет четности недели 
-# [FIXED]Вне сетки расписания дублируется при наличии 
-# Продолжаем раскрашивать (осталось аудитори и ЕБАННЫЕ ТРЕУГОЛЬНИКИ СУКА РАСКРАСИТЬ)
 
-    ## Начинаем. Будем отставлять верхние треугольники.
-    ## Встречаем 'пара_', если нет то похер не обрабатываем. Значит выходной или тп. Если встретили - запомнили индекс - далее ищем индекс следующего слова 'пара_' - запомнили.
-    ## Смотрим между ними если находим не нужный квадрат - удаляем. После этого смотрим разницу между индексом первой пары и второй - если 1, то удаляем упоминание о первой паре и идем дальше по второй
-    ##
-    ##
-    ##
-    ##
 
 
 d = {'mon':[],'tue':[],'wed':[],'thu':[],'fri':[],'sat':[],'sun':[]}
@@ -31,15 +22,21 @@ onlinesbor = '-1'
 oflinesbor = '-2'
 
 def customizesimmilar(day):
+  if debug:
+      t = time.time()
+
   tmp_elem = ''
   for elem in range(len(d[day])):
     tmp_elem = d[day][elem]
     for i in range(elem,len(d[day])):
       if d[day][i] == tmp_elem:
         d[day][i] = d[day][i] + ' '
-
+  if debug:
+      print('customizesimmilar'+time.time()-t)
 
 def customizetimetabletomatchcurrentweek(mode, day):
+  if debug:
+    t1 = time.time()
   supported_days = ('mon','tue','wed','thu','fri','sat','sun','whole')
   firstp = -1
   secp = -1
@@ -98,7 +95,8 @@ def customizetimetabletomatchcurrentweek(mode, day):
 
   if 'пара ' in d[day][len(d[day])-1]:
     d[day].pop()
-
+  if debug:
+      print('customizesimmilartomatchcurrentweek'+time.time()-t1)
     
           
 
@@ -113,6 +111,8 @@ def query_yes_no(question, default="no"):
 
     The "answer" return value is True for "yes" or False for "no".
     """
+    if debug:
+      t2 = time.time()
     valid = {"yes": True, "y": True, "ye": True,
              "no": False, "n": False}
     if default is None:
@@ -134,8 +134,12 @@ def query_yes_no(question, default="no"):
         else:
             sys.stdout.write("Please respond with 'yes' or 'no' "
                              "(or 'y' or 'n').\n")
-def week(r):
 
+    if debug:
+        print('queryyesno'+time.time()-t2)
+def week(r):
+  if debug:
+    t3 = time.time()
   ithinkits_res = -1
   sp = BeautifulSoup(r,'html.parser')
   select = sp.select('em')
@@ -169,16 +173,22 @@ def prpr(d):
           continue
         i.remove(';')
       print(i,sep='\n')
+    if debug:
+      print('week'+time.time()-t3)
 
 
 
 def site():
+    if sebug:
+      t4 = time.time()
     r = requests.get("http://rasp.guap.ru/").content.decode('utf-8')
     soup = BeautifulSoup(r, "html.parser")
     select = soup.find('option',text=group)
     group_prefix = select.attrs['value']
 
     r = requests.get("http://rasp.guap.ru/?g="+group_prefix).content.decode('utf-8')
+    if debug:
+      print('site'+time.time()-t4)
     return r
 def parseonline(r):
 
@@ -188,6 +198,8 @@ def parseonline(r):
     # group_prefix = select.attrs['value']
 
     # r = requests.get("http://rasp.guap.ru/?g="+group_prefix).content.decode('utf-8')
+    if debug:
+      t5 = time.time()
     if week(r) == 0:
       print(Fore.BLUE+Style.BRIGHT+'Сейчас ▼ неделя'+Style.RESET_ALL)
     elif week(r) == 1:
@@ -320,12 +332,14 @@ def parseonline(r):
         d['sat'].remove(i)
 
 
+    if debug:
+      print('1 parseonline'+time.time()-t5)
 
 
 
 
-
-
+    if debug:
+      t6 = time.time()
           
     d['mon'].insert(0,Fore.BLUE+Style.BRIGHT+'Понедельник'+Style.RESET_ALL)
     if len(d['mon']) > 1:
@@ -443,7 +457,8 @@ def parseonline(r):
 
       
       
-    
+    if debug:
+      print('2 parseonline massive'+time.time()-t6)
 
 
 
@@ -543,6 +558,7 @@ def main():
     parser.add_argument('-t','--today',help=Fore.RED+Style.BRIGHT+'Today\'s'+Style.RESET_ALL+' timetable',action='store_true')
     parser.add_argument('-V','--version',help = 'prints version and exit',action='store_true')
     parser.add_argument('-ov','--onlineversion',help = 'prints version stored in online repository and exit',action='store_true')
+    parser.add_argument('-v','--verbose',help = 'Verbose output. Debug info.',action='store_true')
     parser.add_argument('-g', '--group', default='5512', help= 'Your group number. DEFAULT = 5512')
     parser.add_argument('-d', '--dz', default='whole', help = 'Day of week. EX.'+Fore.RED+Style.BRIGHT+'TOMORROW(tom)'+Style.RESET_ALL+', MONDAY(mon), TUESDAY(tue), WEDNESDAY(wed) ans so on..')
     parser.add_argument('-w', '--week', default='2', help = 'Red, blue or whole week. EX. 0 = blue ▼, 1 = red ▲, 2 = whole c = current')
@@ -554,7 +570,10 @@ def main():
     global dz
     global t
     global kek
-    vers = 4.4
+    global debug
+    vers = 4.5
+    if ns.verbose:
+      debug = True
     if(ns.version):
       print('Version:',vers)
       exit()
