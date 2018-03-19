@@ -16,7 +16,7 @@ import pickle
 import subprocess
 
 
-
+debug = False
 d = {'mon':[],'tue':[],'wed':[],'thu':[],'fri':[],'sat':[],'sun':[]}
 onlinesbor = '-1'
 oflinesbor = '-2'
