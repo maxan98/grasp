@@ -32,7 +32,7 @@ def customizesimmilar(day):
       if d[day][i] == tmp_elem:
         d[day][i] = d[day][i] + ' '
   if debug:
-      print('customizesimmilar',time.time()-t)
+      print('customizesimmilar',int(time.time()-t))
 
 def customizetimetabletomatchcurrentweek(mode, day):
   if debug:
@@ -96,7 +96,7 @@ def customizetimetabletomatchcurrentweek(mode, day):
   if 'пара ' in d[day][len(d[day])-1]:
     d[day].pop()
   if debug:
-      print('customizesimmilartomatchcurrentweek',time.time()-t1)
+      print('customizesimmilartomatchcurrentweek',int(time.time()-t1))
     
           
 
@@ -333,7 +333,7 @@ def parseonline(r):
 
 
     if debug:
-      print('1 parseonline',time.time()-t5)
+      print('1 parseonline',int(time.time()-t5))
 
 
 
@@ -458,7 +458,7 @@ def parseonline(r):
       
       
     if debug:
-      print('2 parseonline massive',time.time()-t6)
+      print('2 parseonline massive',int(time.time()-t6))
 
 
 
