@@ -32,7 +32,7 @@ def customizesimmilar(day):
       if d[day][i] == tmp_elem:
         d[day][i] = d[day][i] + ' '
   if debug:
-      print('customizesimmilar'+time.time()-t)
+      print('customizesimmilar',time.time()-t)
 
 def customizetimetabletomatchcurrentweek(mode, day):
   if debug:
@@ -96,7 +96,7 @@ def customizetimetabletomatchcurrentweek(mode, day):
   if 'пара ' in d[day][len(d[day])-1]:
     d[day].pop()
   if debug:
-      print('customizesimmilartomatchcurrentweek'+time.time()-t1)
+      print('customizesimmilartomatchcurrentweek',time.time()-t1)
     
           
 
@@ -136,7 +136,7 @@ def query_yes_no(question, default="no"):
                              "(or 'y' or 'n').\n")
 
     if debug:
-        print('queryyesno'+time.time()-t2)
+        print('queryyesno',time.time()-t2)
 def week(r):
   if debug:
     t3 = time.time()
@@ -174,7 +174,7 @@ def prpr(d):
         i.remove(';')
       print(i,sep='\n')
     if debug:
-      print('week'+time.time()-t3)
+      print('week',time.time()-t3)
 
 
 
@@ -188,7 +188,7 @@ def site():
 
     r = requests.get("http://rasp.guap.ru/?g="+group_prefix).content.decode('utf-8')
     if debug:
-      print('site'+time.time()-t4)
+      print('site',time.time()-t4)
     return r
 def parseonline(r):
 
@@ -333,7 +333,7 @@ def parseonline(r):
 
 
     if debug:
-      print('1 parseonline'+time.time()-t5)
+      print('1 parseonline',time.time()-t5)
 
 
 
@@ -458,7 +458,7 @@ def parseonline(r):
       
       
     if debug:
-      print('2 parseonline massive'+time.time()-t6)
+      print('2 parseonline massive',time.time()-t6)
 
 
 
@@ -571,7 +571,7 @@ def main():
     global t
     global kek
     global debug
-    vers = 4.6
+    vers = 4.7
     if ns.verbose:
       debug = True
     if(ns.version):
