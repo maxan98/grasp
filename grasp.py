@@ -32,7 +32,7 @@ def customizesimmilar(day):
       if d[day][i] == tmp_elem:
         d[day][i] = d[day][i] + ' '
   if debug:
-      print('customizesimmilar',int(time.time()-t))
+      print('customizesimmilar',float(time.time()-t))
 
 def customizetimetabletomatchcurrentweek(mode, day):
   if debug:
@@ -96,7 +96,7 @@ def customizetimetabletomatchcurrentweek(mode, day):
   if 'пара ' in d[day][len(d[day])-1]:
     d[day].pop()
   if debug:
-      print('customizesimmilartomatchcurrentweek',int(time.time()-t1))
+      print('customizesimmilartomatchcurrentweek',float(time.time()-t1))
     
           
 
@@ -333,7 +333,7 @@ def parseonline(r):
 
 
     if debug:
-      print('1 parseonline',int(time.time()-t5))
+      print('1 parseonline',float(time.time()-t5))
 
 
 
@@ -458,18 +458,12 @@ def parseonline(r):
       
       
     if debug:
-      print('2 parseonline massive',int(time.time()-t6))
+      print('2 parseonline massive',float(time.time()-t6))
 
 
 
 ### тут фильтранем неделю
-    customizesimmilar('mon')
-    customizesimmilar('tue')
-    customizesimmilar('wed')
-    customizesimmilar('thu')
-    customizesimmilar('fri')
-    customizesimmilar('sat')
-    customizesimmilar('sun')
+
     if nweek != 'c':
         weekz = int(nweek)
     else:
@@ -483,6 +477,13 @@ def parseonline(r):
           weekz = 1
     customizetimetabletomatchcurrentweek(weekz,dz)
     if dz == 'whole':
+           customizesimmilar('mon')
+           customizesimmilar('tue')
+           customizesimmilar('wed')
+           customizesimmilar('thu')
+           customizesimmilar('fri')
+           customizesimmilar('sat')
+           customizesimmilar('sun')
            
            prpr(d['mon'])
            print('_________________')
@@ -504,18 +505,25 @@ def parseonline(r):
            
            prpr(d['sun'])
     elif dz == 'mon':
+           customizesimmilar('mon')
            prpr(d['mon'])
     elif dz == 'tue':
+           customizesimmilar('tue')
            prpr(d['tue'])
     elif dz == 'wed':
+           customizesimmilar('wed')
            prpr(d['wed'])
     elif dz == 'thu':
+           customizesimmilar('thu')
            prpr(d['thu'])
     elif dz == 'fri':
+           customizesimmilar('fri')
            prpr(d['fri'])
     elif dz == 'sat':
+           customizesimmilar('sat')
            prpr(d['sat'])
     elif dz == 'sun':
+           customizesimmilar('sun')
            prpr(d['sun'])
 
 def parseofline():
