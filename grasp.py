@@ -545,17 +545,17 @@ def cachett():
   select = soup.find('option',text=group)
   group_prefix = select.attrs['value']
   r = requests.get("http://rasp.guap.ru/?g="+group_prefix).content.decode('utf-8')
-  if not os.path.exists('cached'):
-    os.makedirs('cached')
-  file = open('cached/'+group,'w')
+  if not os.path.exists(os.path.expanduser('~/cached')):
+    os.makedirs(os.path.expanduser('~/cached'))
+  file = open(os.path.expanduser('~/cached/'+group),'w')
   file.write(r)
   file.close()
   tlol = time.time()
   lol = time.localtime(t)
-  with open ('cached/'+group+'.pickle','wb') as f:
+  with open (os.path.expanduser('~/cached/'+group+'.pkl'),'wb') as f:
       pickle.dump(lol,f)
 
-  print('Cached successful! \n File name - ',file.name)
+  print('Cached successful! \n File name - ',os.path.abspath(file.name))
 
 def main():
     init()
@@ -579,7 +579,7 @@ def main():
     global t
     global kek
     global debug
-    vers = 4.7
+    vers = 4.8
     if ns.verbose:
       debug = True
     if(ns.version):
