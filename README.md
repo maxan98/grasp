@@ -19,6 +19,8 @@ After installing python u re ready to install the app :)
 **pip / Github (THE EASIEST WAY)**
 ```
 pip install git+https://github.com/maxan98/grasp.git
+or
+pip3 install git+https://github.com/maxan98/grasp.git
 ```
 
 or
@@ -43,7 +45,11 @@ End with an example of getting some data out of the system or using it for a lit
 
 ## Usage/help/screenshots/additional info
 
-
+Auto upgrades when new version is available.
+If u want 2 force-upgrade the app use
+```
+pip3 install -U git+https://github.com/maxan98/grasp.git
+```
 
 All info and help u can find just running with -h key.
 Output of -h key:
