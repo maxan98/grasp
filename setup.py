@@ -43,8 +43,7 @@ setup(
         'colorama',
         'beautifulsoup4',
         'requests',
-        'argparse',
-        'tkinter'
+        'argparse'
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
