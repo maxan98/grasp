@@ -152,7 +152,7 @@ def week(r):
   else:
     ithinkits_res = -1
   if ns.offline:
-    with open (os.path.expanduser('~/cached/'+group+'.pickle'),'rb') as pc:
+    with open (os.path.expanduser('~/cached/'+group+'.pkl'),'rb') as pc:
         data = pickle.load(pc)
         t = time.time()
         kek = time.localtime(t)
@@ -582,7 +582,7 @@ def main():
     global t
     global kek
     global debug
-    vers = 5.0
+    vers = 5.1
     if ns.verbose:
       debug = True
     if(ns.version):
