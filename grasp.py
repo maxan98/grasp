@@ -14,6 +14,8 @@ from colorama import init
 import time
 import pickle
 import subprocess
+from tkinter import *
+import tkinter.ttk as ttk
 
 
 debug = False
@@ -444,7 +446,7 @@ def parseonline(r):
     global onlinesbor
     onlinesbor = Soup.select('span')[0].text
     try:
-      file = open('cached/'+group,'r')
+      file = open(os.path.expanduser('~/cached/'+group),'r')
       rr = file.read()
       file.close()
       global oflinesbor
@@ -528,9 +530,9 @@ def parseonline(r):
 
 def parseofline():
   try:
-    file = open('cached/'+group,'r')
+    file = open(os.path.expanduser('~/cached/'+group),'r')
   except IOError:
-    print('File doesnt exists! Trry 2 rerun util.py')
+    print('File doesnt exists! Try 2 running with --cache key or just ask for timetable once in --online mod')
     exit()
   r = file.read()
   file.close()
@@ -564,6 +566,7 @@ def main():
     parser.add_argument('-f','--offline',help=Fore.RED+Style.BRIGHT+'[REQUIRED] Offline'+Style.RESET_ALL+' mod',action='store_true')
     parser.add_argument('-c','--cache',help=Fore.RED+Style.BRIGHT+'[REQUIRED] Cache '+Style.RESET_ALL+'timetable',action='store_true')
     parser.add_argument('-t','--today',help=Fore.RED+Style.BRIGHT+'Today\'s'+Style.RESET_ALL+' timetable',action='store_true')
+    parser.add_argument('-G','--gui',help='Run with GUI[not working]',action='store_true')
     parser.add_argument('-V','--version',help = 'prints version and exit',action='store_true')
     parser.add_argument('-ov','--onlineversion',help = 'prints version stored in online repository and exit',action='store_true')
     parser.add_argument('-v','--verbose',help = 'Verbose output. Debug info.',action='store_true')
@@ -579,7 +582,7 @@ def main():
     global t
     global kek
     global debug
-    vers = 4.8
+    vers = 4.9
     if ns.verbose:
       debug = True
     if(ns.version):
@@ -619,7 +622,44 @@ def main():
       if kek == 7:
         dz = 'mon'
 
-    
+    if ns.gui:
+      root = Tk()
+      r = requests.get("http://rasp.guap.ru/").content.decode('utf-8')
+      soups = BeautifulSoup(r, "html.parser")
+      select = soups.findAll('option')
+      values = []
+      for i in range (1,len(select)):
+          if 'нет' in select[i].text:
+              break 
+          values.append(select[i].text)
+      listgroup = ttk.Combobox(root,height=5,width=8,values = values)
+      listgroup.set('5512')
+      combod = ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Вне сетки']
+      listday = ttk.Combobox(root,height=5,width=8,values = combod)
+      listday.set('Понедельник')
+      
+      
+     
+     
+      onofline = IntVar()
+      week = IntVar()
+      rbutton1=Radiobutton(root,text='Online',variable=onofline,value=1)
+      rbutton2=Radiobutton(root,text='Offline',variable=onofline,value=2)
+      rbutton3=Radiobutton(root,text='Red week',variable=week,value=0)
+      rbutton4=Radiobutton(root,text='Blue week',variable=week,value=1)
+      rbutton5=Radiobutton(root,text='Both weeks',variable=week,value=2)
+      button1=Button(root,text='ok',width=25,height=5,bg='black',fg='red',font='arial 14')
+      button1.pack(side='bottom')
+
+      rbutton1.pack()
+      rbutton2.pack()
+      
+      listday.pack(side = 'top')
+      listgroup.pack(side = 'top')
+      rbutton3.pack()
+      rbutton4.pack()
+      rbutton5.pack()
+      root.mainloop()
     if ns.cache:
       cachett()
     elif ns.online:
