@@ -30,8 +30,10 @@ def customizesimmilar(day):
   for elem in range(len(d[day])):
     tmp_elem = d[day][elem]
     for i in range(elem,len(d[day])):
+      if i == elem:
+        continue
       if d[day][i] == tmp_elem:
-        d[day][i] = d[day][i] + ' '
+        d[day][i] = d[day][i] + '!'
   if debug:
       print('customizesimmilar',float(time.time()-t))
 
@@ -59,13 +61,14 @@ def customizetimetabletomatchcurrentweek(mode, day):
     customizetimetabletomatchcurrentweek(mode,'sat')
     customizetimetabletomatchcurrentweek(mode,'sun')
     return
-
+  global group
   #33 если день передали говяный - шлеп в пиздц
   if day not in supported_days:
     raise ValueError("invalid day:"+day)
     ### При выводе фильтровал ; а они были отдельным элементом и индексы сбвали - был костыль. Ниже блок их УДАЛЯЕТ а не просто маскирует
+  customizesimmilar(day)
   for elem in d[day]:
-    if ';' in elem:
+    if ';' in elem or group in elem:
       apdel.append(d[day].index(elem))
   for i in range(len(apdel)):
     d[day].pop(apdel[i])
@@ -77,7 +80,11 @@ def customizetimetabletomatchcurrentweek(mode, day):
   for elem in d[day]:
     if modechar in elem:
       todel.append(d[day].index(elem))
-
+  smth = []
+  for elem in d[day]:
+    if '5512' in elem:
+      smth.append(d[day].index(elem))
+  #print(smth,'smth')
   ### удаляем время пар когда нужно
   finaldell = []
   for i in range(len(todel)):
@@ -85,15 +92,16 @@ def customizetimetabletomatchcurrentweek(mode, day):
       break
     if 'пара ' in d[day][todel[i]-1] and 'пара ' in d[day][todel[i]+1]:
       finaldell.append(d[day].index(d[day][todel[i]-1]))
-
+  
   finaldell.extend(todel)
+  finaldell.extend(smth)
   finaldell.sort()
   #print(finaldell)
   for i in range(len(finaldell)):
     d[day].pop(finaldell[i])
     for j in range(i,len(finaldell)):
       finaldell[j] = finaldell[j]-1
-
+  
   if 'пара ' in d[day][len(d[day])-1]:
     d[day].pop()
   if debug:
@@ -613,8 +621,11 @@ def main():
     kek = time.localtime(t).tm_wday
     diff = 1
     change_week = False
+    tuu = False
     if ns.gui:
-      
+      tuu = True
+      dz = 'tom'
+      ns.dz = 'tom'
       try:
           tui = Tui()
           tui.run()
@@ -637,10 +648,16 @@ def main():
     if dz == 'tom':
       zavtra = True
       #kek+=diff
-      kek = kek-1%7
+      if tuu:
+        kek = kek-1
+      else:
+        kek+=1
+      if kek<0:
+        kek = 0
       ns.today = True
     if(ns.today):
       #print('kek',kek)
+      #print(kek%7)
       
       if kek == 0:
         dz = 'mon'
