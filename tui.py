@@ -10,8 +10,9 @@ class MainForm(npyscreen.ActionForm):
 
     def create(self):
         y, x = self.useable_space()
-        self.title = self.add(npyscreen.TitleText, name="Номер группы", value="5512")
+        
         self.date = self.add(npyscreen.TitleDateCombo, name="Date:", max_width=x // 2,allowTodaysDate=True,allowClear=False)
+        self.title = self.add(npyscreen.TitleText, name="Номер группы", value="5512",relx=50,rely = 2)
         
     # переопределенный метод, срабатывающий при нажатии на кнопку «ok»
     def on_ok(self):
