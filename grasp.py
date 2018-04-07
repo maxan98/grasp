@@ -621,6 +621,7 @@ def main():
       except Exception as e:
           tuidate = e.args[0]
           ns.group = e.args[1]
+          group = ns.group
           #print(tuidate)
           #print(ns.group)
           diff = time.strptime(tuidate,'%Y-%M-%d').tm_mday-time.localtime(t).tm_mday 
