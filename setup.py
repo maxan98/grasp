@@ -32,7 +32,7 @@ setup(
     author_email='maxan9888@gmail.com',
     url='https://github.com/maxan98/grasp',
     license='Apache License, Version 2.0',
-    py_modules=['grasp'],
+    py_modules=['grasp','tui'],
     entry_points={
         'console_scripts': [
             'grasp=grasp:main',
