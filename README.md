@@ -106,6 +106,13 @@ Im still working on some features and on prettyfying the output.
 
 ![2018-03-04 21 16 27](https://user-images.githubusercontent.com/24477803/36948864-e09ae29c-1ff1-11e8-8194-b5a18d942ae8.png)
 
+**Or like this if u prefer TUI**
+
+Tui mod is very useful for requesting exotic timetable such as next month second friday :)
+
+Tui works like GUI, just navigate using mouse or arrows on your keyboard and hit ENTER to confirm.
+![2018-04-08 1 15 48](https://user-images.githubusercontent.com/24477803/38460828-a47ba85c-3aca-11e8-8921-bae3822fbd10.png)
+
 ###### PREVIOUS VERSIONs SCREENSHOTS
 
 ![2018-03-04 1 04 46](https://user-images.githubusercontent.com/24477803/36939788-42c074f0-1f48-11e8-9a3f-fc0210a50cd0.png)
