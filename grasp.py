@@ -14,8 +14,7 @@ from colorama import init
 import time
 import pickle
 import subprocess
-from tkinter import *
-import tkinter.ttk as ttk
+from tui import *
 
 
 debug = False
@@ -158,6 +157,7 @@ def week(r):
         kek = time.localtime(t)
         if (int(time.strftime('%W',kek)) - int(time.strftime('%W',data)))%2 == 0:
           return ithinkits_res
+
         else:
           if ithinkits_res == 1:
             return 0
@@ -465,11 +465,15 @@ def parseonline(r):
 
 
 ### тут фильтранем неделю
-
+    global change_week
+    
+    print(change_week)
     if nweek != 'c':
         weekz = int(nweek)
+        
     else:
         weekz = week(r)
+    print(weekz) 
     if(ns.today):
       weekz = week(r)
       if kek == 7:
@@ -477,6 +481,12 @@ def parseonline(r):
           weekz = 0
         elif weekz == 0:
           weekz = 1
+    if change_week:
+      if weekz == 1:
+        weekz = 0
+      elif weekz == 0:
+        weekz = 1
+    print(weekz)
     customizetimetabletomatchcurrentweek(weekz,dz)
     if dz == 'whole':
            customizesimmilar('mon')
@@ -566,7 +576,7 @@ def main():
     parser.add_argument('-f','--offline',help=Fore.RED+Style.BRIGHT+'[REQUIRED] Offline'+Style.RESET_ALL+' mod',action='store_true')
     parser.add_argument('-c','--cache',help=Fore.RED+Style.BRIGHT+'[REQUIRED] Cache '+Style.RESET_ALL+'timetable',action='store_true')
     parser.add_argument('-t','--today',help=Fore.RED+Style.BRIGHT+'Today\'s'+Style.RESET_ALL+' timetable',action='store_true')
-    parser.add_argument('-G','--gui',help='Run with GUI[not working]',action='store_true')
+    parser.add_argument('-G','--gui',help='Run with GUI(ALPHA! Very unstable!)',action='store_true')
     parser.add_argument('-V','--version',help = 'prints version and exit',action='store_true')
     parser.add_argument('-ov','--onlineversion',help = 'prints version stored in online repository and exit',action='store_true')
     parser.add_argument('-v','--verbose',help = 'Verbose output. Debug info.',action='store_true')
@@ -582,7 +592,8 @@ def main():
     global t
     global kek
     global debug
-    vers = 5.1
+    global change_week
+    vers = 5.2
     if ns.verbose:
       debug = True
     if(ns.version):
@@ -593,17 +604,42 @@ def main():
       ver = float(req[784:787])
       print('Online version:',ver)
       exit()
+    tuidate = ""
     group = ns.group
     dz = ns.dz
     nweek = ns.week
     zavtra = False
     t = time.time()
     kek = time.localtime(t).tm_wday
+    diff = 1
+    change_week = False
+    if ns.gui:
+      
+      try:
+          tui = Tui()
+          tui.run()
+      except Exception as e:
+          tuidate = e.args[0]
+          ns.group = e.args[1]
+          #print(tuidate)
+          #print(ns.group)
+          diff = time.strptime(tuidate,'%Y-%M-%d').tm_mday-time.localtime(t).tm_mday 
+          kek = time.strptime(tuidate,'%Y-%M-%d').tm_wday
+          #print(diff)
+          dz = 'tom'
+          zavtra = True
+          print(int(time.strftime('%W',time.strptime(tuidate,'%Y-%M-%d'))),int(time.strftime('%W',time.localtime(t))),'time')
+          if (int(time.strftime('%W',time.strptime(tuidate,'%Y-%M-%d')))%2 ==0):
+            change_week = True
+    
+    
     if dz == 'tom':
       zavtra = True
-      kek+=1
+      #kek+=diff
+      kek = kek-1%7
       ns.today = True
     if(ns.today):
+      #print('kek',kek)
       
       if kek == 0:
         dz = 'mon'
@@ -622,44 +658,9 @@ def main():
       if kek == 7:
         dz = 'mon'
 
-    if ns.gui:
-      root = Tk()
-      r = requests.get("http://rasp.guap.ru/").content.decode('utf-8')
-      soups = BeautifulSoup(r, "html.parser")
-      select = soups.findAll('option')
-      values = []
-      for i in range (1,len(select)):
-          if 'нет' in select[i].text:
-              break 
-          values.append(select[i].text)
-      listgroup = ttk.Combobox(root,height=5,width=8,values = values)
-      listgroup.set('5512')
-      combod = ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Вне сетки']
-      listday = ttk.Combobox(root,height=5,width=8,values = combod)
-      listday.set('Понедельник')
-      
-      
-     
-     
-      onofline = IntVar()
-      week = IntVar()
-      rbutton1=Radiobutton(root,text='Online',variable=onofline,value=1)
-      rbutton2=Radiobutton(root,text='Offline',variable=onofline,value=2)
-      rbutton3=Radiobutton(root,text='Red week',variable=week,value=0)
-      rbutton4=Radiobutton(root,text='Blue week',variable=week,value=1)
-      rbutton5=Radiobutton(root,text='Both weeks',variable=week,value=2)
-      button1=Button(root,text='ok',width=25,height=5,bg='black',fg='red',font='arial 14')
-      button1.pack(side='bottom')
 
-      rbutton1.pack()
-      rbutton2.pack()
       
-      listday.pack(side = 'top')
-      listgroup.pack(side = 'top')
-      rbutton3.pack()
-      rbutton4.pack()
-      rbutton5.pack()
-      root.mainloop()
+      
     if ns.cache:
       cachett()
     elif ns.online:
@@ -674,6 +675,7 @@ def main():
         req = requests.get('https://raw.githubusercontent.com/maxan98/grasp/master/setup.py').content.decode('utf-8')
         ver = float(req[784:787])
         if vers < ver:
+          # TRY CATCH На сабпроцы
           if query_yes_no('A new version of app is available. Update now?', default = 'no'):
             if subprocess.call(["pip3", "install", "-U","git+https://github.com/maxan98/grasp.git"]) != 0:
               if subprocess.call(["pip", "install", "-U","git+https://github.com/maxan98/grasp.git"]) != 0:
