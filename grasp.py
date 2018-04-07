@@ -467,13 +467,13 @@ def parseonline(r):
 ### тут фильтранем неделю
     global change_week
     
-    print(change_week)
+    #print(change_week)
     if nweek != 'c':
         weekz = int(nweek)
         
     else:
         weekz = week(r)
-    print(weekz) 
+    #print(weekz) 
     if(ns.today):
       weekz = week(r)
       if kek == 7:
@@ -486,7 +486,7 @@ def parseonline(r):
         weekz = 0
       elif weekz == 0:
         weekz = 1
-    print(weekz)
+    #print(weekz)
     customizetimetabletomatchcurrentweek(weekz,dz)
     if dz == 'whole':
            customizesimmilar('mon')
@@ -628,7 +628,7 @@ def main():
           #print(diff)
           dz = 'tom'
           zavtra = True
-          print(int(time.strftime('%W',time.strptime(tuidate,'%Y-%M-%d'))),int(time.strftime('%W',time.localtime(t))),'time')
+          #print(int(time.strftime('%W',time.strptime(tuidate,'%Y-%M-%d'))),int(time.strftime('%W',time.localtime(t))),'time')
           if (int(time.strftime('%W',time.strptime(tuidate,'%Y-%M-%d')))%2 ==0):
             change_week = True
     
