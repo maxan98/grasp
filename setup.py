@@ -43,7 +43,8 @@ setup(
         'colorama',
         'beautifulsoup4',
         'requests',
-        'argparse'
+        'argparse',
+        'npyscreen'
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
