@@ -29,19 +29,7 @@ or
 git clone https://github.com/maxan98/grasp.git
 python grasp/setup.py install
 ```
-**Just download (Like the way it used to be)**
-```
-wget -O grasp https://raw.githubusercontent.com/maxan98/grasp/master/grasp.py
-chmod +x grasp
-```
-or
 
-```
-curl -Lo grasp https://raw.githubusercontent.com/maxan98/grasp/master/grasp.py
-chmod +x grasp
-```
-
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Usage/help/screenshots/additional info
 
