@@ -590,7 +590,8 @@ def main():
     parser.add_argument('-v','--verbose',help = 'Verbose output. Debug info.',action='store_true')
     parser.add_argument('-g', '--group', default='5512', help= 'Your group number. DEFAULT = 5512')
     parser.add_argument('-d', '--dz', default='whole', help = 'Day of week. EX.'+Fore.RED+Style.BRIGHT+'TOMORROW(tom)'+Style.RESET_ALL+', MONDAY(mon), TUESDAY(tue), WEDNESDAY(wed) ans so on..')
-    parser.add_argument('-w', '--week', default='2', help = 'Red, blue or whole week. EX. 0 = blue ▼, 1 = red ▲, 2 = whole c = current')
+    parser.add_argument('-w', '--week', default='2', help = 'Red, blue or whole week. EX. 0 = blue lower, 1 = red upper, 2 = whole c = current')
+    parser.add_argument('-na','--no-non-ascii-characters',help = 'removes non non-ascii-characters',action='store_true')
     global ns
     ns = parser.parse_args()
     global group
