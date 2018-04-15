@@ -191,12 +191,12 @@ def prpr(d):
 def site():
     if debug:
       t4 = time.time()
-    r = requests.get("http://rasp.guap.ru/").content.decode('utf-8')
+    r = requests.get("http://rasp.guap.ru/").content.decode('ascii')
     soup = BeautifulSoup(r, "html.parser")
     select = soup.find('option',text=group)
     group_prefix = select.attrs['value']
 
-    r = requests.get("http://rasp.guap.ru/?g="+group_prefix).content.decode('utf-8')
+    r = requests.get("http://rasp.guap.ru/?g="+group_prefix).content.decode('ascii')
     if debug:
       print('site',time.time()-t4)
     return r
@@ -217,7 +217,7 @@ def parseonline(r):
         print(Fore.BLUE+Style.BRIGHT+'Сейчас ▼ неделя'+Style.RESET_ALL)
     elif week(r) == 1:
       if ns.nnac:
-        print(Fore.RED+Style.BRIGHT+'Сейчас верхняя неделя'+Style.RESET_ALL)
+        print((Fore.RED+Style.BRIGHT+'Сейчас верхняя неделя'+Style.RESET_ALL).encode('utf-8').decode('utf-8'))
       else:
         print(Fore.RED+Style.BRIGHT+'Сейчас ▲ неделя'+Style.RESET_ALL)
     else:
