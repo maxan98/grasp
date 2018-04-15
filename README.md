@@ -29,19 +29,7 @@ or
 git clone https://github.com/maxan98/grasp.git
 python grasp/setup.py install
 ```
-**Just download (Like the way it used to be)**
-```
-wget -O grasp https://raw.githubusercontent.com/maxan98/grasp/master/grasp.py
-chmod +x grasp
-```
-or
 
-```
-curl -Lo grasp https://raw.githubusercontent.com/maxan98/grasp/master/grasp.py
-chmod +x grasp
-```
-
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Usage/help/screenshots/additional info
 
@@ -105,6 +93,13 @@ Im still working on some features and on prettyfying the output.
 **Now it looks like this :)**
 
 ![2018-03-04 21 16 27](https://user-images.githubusercontent.com/24477803/36948864-e09ae29c-1ff1-11e8-8194-b5a18d942ae8.png)
+
+**Or like this if u prefer TUI**
+
+Tui mod is very useful for requesting exotic timetable such as next month second friday :)
+
+Tui works like GUI, just navigate using mouse or arrows on your keyboard and hit ENTER to confirm.
+![2018-04-08 1 15 48](https://user-images.githubusercontent.com/24477803/38460828-a47ba85c-3aca-11e8-8921-bae3822fbd10.png)
 
 ###### PREVIOUS VERSIONs SCREENSHOTS
 
