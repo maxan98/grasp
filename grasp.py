@@ -211,9 +211,15 @@ def parseonline(r):
     if debug:
       t5 = time.time()
     if week(r) == 0:
-      print(Fore.BLUE+Style.BRIGHT+'Сейчас ▼ неделя'+Style.RESET_ALL)
+      if ns.nnac:
+        print(Fore.BLUE+Style.BRIGHT+'Сейчас нижняя неделя'+Style.RESET_ALL)
+      else:
+        print(Fore.BLUE+Style.BRIGHT+'Сейчас ▼ неделя'+Style.RESET_ALL)
     elif week(r) == 1:
-      print(Fore.RED+Style.BRIGHT+'Сейчас ▲ неделя'+Style.RESET_ALL)
+      if ns.nnac:
+        print(Fore.RED+Style.BRIGHT+'Сейчас верхняя неделя'+Style.RESET_ALL)
+      else:
+        print(Fore.RED+Style.BRIGHT+'Сейчас ▲ неделя'+Style.RESET_ALL)
     else:
       print('У меня траблы с определением недели')
     Soup = BeautifulSoup(r, 'html.parser')
