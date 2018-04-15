@@ -191,12 +191,12 @@ def prpr(d):
 def site():
     if debug:
       t4 = time.time()
-    r = requests.get("http://rasp.guap.ru/").content.decode('ascii')
+    r = requests.get("http://rasp.guap.ru/").content.encode('ascii')
     soup = BeautifulSoup(r, "html.parser")
     select = soup.find('option',text=group)
     group_prefix = select.attrs['value']
 
-    r = requests.get("http://rasp.guap.ru/?g="+group_prefix).content.decode('ascii')
+    r = requests.get("http://rasp.guap.ru/?g="+group_prefix).content.encode('ascii')
     if debug:
       print('site',time.time()-t4)
     return r
