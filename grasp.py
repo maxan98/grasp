@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# coding=utf-8
 import sys
 import os
 import re
@@ -16,7 +15,7 @@ import pickle
 import subprocess
 from tui import *
 
-
+session = False
 debug = False
 d = {'mon':[],'tue':[],'wed':[],'thu':[],'fri':[],'sat':[],'sun':[]}
 onlinesbor = '-1'
@@ -92,7 +91,7 @@ def customizetimetabletomatchcurrentweek(mode, day):
       break
     if 'пара ' in d[day][todel[i]-1] and 'пара ' in d[day][todel[i]+1]:
       finaldell.append(d[day].index(d[day][todel[i]-1]))
-  
+
   finaldell.extend(todel)
   finaldell.extend(smth)
   finaldell.sort()
@@ -101,13 +100,13 @@ def customizetimetabletomatchcurrentweek(mode, day):
     d[day].pop(finaldell[i])
     for j in range(i,len(finaldell)):
       finaldell[j] = finaldell[j]-1
-  
+
   if 'пара ' in d[day][len(d[day])-1]:
     d[day].pop()
   if debug:
       print('customizesimmilartomatchcurrentweek',float(time.time()-t1))
-    
-          
+
+
 
 
 def query_yes_no(question, default="no"):
@@ -184,11 +183,60 @@ def prpr(d):
           continue
         i.remove(';')
       print(i,sep='\n')
-    
 
+def parsesession():
+        if debug:
+          t4 = time.time()
+        r = requests.get("http://raspsess.guap.ru/").content.decode('utf-8')
+        soup = BeautifulSoup(r, "html.parser")
+        select = soup.find('option',text=group)
+        group_prefix = select.attrs['value']
+
+        r = requests.get("http://raspsess.guap.ru/?g="+group_prefix).content.decode('utf-8')
+        if debug:
+          print('site',time.time()-t4)
+        Soup = BeautifulSoup(r, 'html.parser')
+        days = list(Soup.select('h3'))
+
+        day = []
+        #print(day)
+        for dy in days:
+            day.append(dy.text)
+
+        daysii = list(Soup.select('h4'))
+
+        dayii = []
+        #print(dayii)
+        for dy in daysii:
+            dayii.append(dy.text)
+
+        pairs = Soup.select('.study')
+        #pprint(pairs)
+        #print('df')
+        j = 0
+        cheat = []
+        for i in pairs:
+            str = i
+            #print(day[j])
+           # print(str)
+
+            j+=1
+            #print(i.find('span').text)
+            t = i.find('span').previous
+            tt = t.previous
+            ttt = tt.previous;
+            cheat.append(ttt.previous)
+            cheat.append(t.previous)
+            cheat.append(i.find('span').text)
+            cheat.append('\n')
+        print('_________________')
+        prpr(cheat)
 
 
 def site():
+    if session:
+        parsesession()
+        exit()
     if debug:
       t4 = time.time()
     r = requests.get("http://rasp.guap.ru/").content.decode('utf-8')
@@ -200,6 +248,7 @@ def site():
     if debug:
       print('site',time.time()-t4)
     return r
+
 def parseonline(r):
 
     # r = requests.get("http://rasp.guap.ru/").content.decode('utf-8')
@@ -272,7 +321,7 @@ def parseonline(r):
 
     #print(len(pairs),len(day),len(dayii))
 
-    global d 
+    global d
     pattern = re.compile('Понедельник')
     columns = Soup.find(text=pattern)
     columns = columns.next
@@ -356,7 +405,7 @@ def parseonline(r):
 
     if debug:
       t6 = time.time()
-          
+
     d['mon'].insert(0,Fore.BLUE+Style.BRIGHT+'Понедельник'+Style.RESET_ALL)
     if len(d['mon']) > 1:
       d['mon'].pop(1)
@@ -471,8 +520,8 @@ def parseonline(r):
       print(Fore.RED+Style.BRIGHT+'No cached timetable exists! Try 2 reinstall using pip install -U or u just never cached this group\'s timetable before. If so, do it NOW!'+Style.RESET_ALL)
       oflinesbor = onlinesbor+'FAKE WRONG'
 
-      
-      
+
+
     if debug:
       print('2 parseonline massive',float(time.time()-t6))
 
@@ -480,14 +529,14 @@ def parseonline(r):
 
 ### тут фильтранем неделю
     global change_week
-    
+
     #print(change_week)
     if nweek != 'c':
         weekz = int(nweek)
-        
+
     else:
         weekz = week(r)
-    #print(weekz) 
+    #print(weekz)
     if(ns.today):
       weekz = week(r)
       if kek == 7:
@@ -516,25 +565,25 @@ def parseonline(r):
            customizesimmilar('fri')
            customizesimmilar('sat')
            customizesimmilar('sun')
-           
+
            prpr(d['mon'])
            print('_________________')
-           
+
            prpr(d['tue'])
            print('_________________')
-           
+
            prpr(d['wed'])
            print('_________________')
-           
+
            prpr(d['thu'])
            print('_________________')
-           
+
            prpr(d['fri'])
            print('_________________')
-           
+
            prpr(d['sat'])
            print('_________________')
-           
+
            prpr(d['sun'])
     elif dz == 'mon':
            customizesimmilar('mon')
@@ -604,8 +653,11 @@ def main():
     parser.add_argument('-d', '--dz', default='whole', help = 'Day of week. EX.'+Fore.RED+Style.BRIGHT+'TOMORROW(tom)'+Style.RESET_ALL+', MONDAY(mon), TUESDAY(tue), WEDNESDAY(wed) ans so on..')
     parser.add_argument('-w', '--week', default='2', help = 'Red, blue or whole week. EX. 0 = blue lower, 1 = red upper, 2 = whole c = current')
     parser.add_argument('-N','--nnac',help = 'removes non non-ascii-characters',action='store_true')
+    parser.add_argument('-s','--session',help = 'Session timetable. Works only like grasp -os(g)xxxx',action='store_true')
     global ns
     ns = parser.parse_args()
+    global session
+    session = ns.session
     global group
     global nweek
     global zavtra
@@ -614,7 +666,7 @@ def main():
     global kek
     global debug
     global change_week
-    vers = 5.2
+    vers = 5.3
     if ns.verbose:
       debug = True
     if(ns.version):
@@ -648,7 +700,7 @@ def main():
           group = ns.group
           #print(tuidate)
           #print(ns.group)
-          diff = time.strptime(tuidate,'%Y-%M-%d').tm_mday-time.localtime(t).tm_mday 
+          diff = time.strptime(tuidate,'%Y-%M-%d').tm_mday-time.localtime(t).tm_mday
           kek = time.strptime(tuidate,'%Y-%M-%d').tm_wday
           #print(diff)
           dz = 'tom'
@@ -656,8 +708,8 @@ def main():
           #print(int(time.strftime('%W',time.strptime(tuidate,'%Y-%M-%d'))),int(time.strftime('%W',time.localtime(t))),'time')
           if (int(time.strftime('%W',time.strptime(tuidate,'%Y-%M-%d')))%2 ==0):
             change_week = True
-    
-    
+
+
     if dz == 'tom':
       zavtra = True
       #kek+=diff
@@ -671,7 +723,7 @@ def main():
     if(ns.today):
       #print('kek',kek)
       #print(kek%7)
-      
+
       if kek == 0:
         dz = 'mon'
       if kek == 1:
@@ -690,8 +742,8 @@ def main():
         dz = 'mon'
 
 
-      
-      
+
+
     if ns.cache:
       cachett()
     elif ns.online:
@@ -716,13 +768,12 @@ def main():
         else:
           print('App is up to date.')
 
-      
+
     elif ns.offline:
-      
+
 
       parseofline()
     else:
       print(Fore.RED+"Wrong usage. Use '-h' for help."+Style.RESET_ALL)
 if __name__ == '__main__':
   main()
-    
