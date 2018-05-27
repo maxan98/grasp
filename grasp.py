@@ -225,10 +225,12 @@ def parsesession():
             t = i.find('span').previous
             tt = t.previous
             ttt = tt.previous;
-            cheat.append(ttt.previous)
-            cheat.append(t.previous)
-            cheat.append(i.find('span').text)
-            cheat.append('\n')
+
+            cheat.append(Fore.BLUE+Style.BRIGHT+ttt.previous+Style.RESET_ALL)
+
+            cheat.append(Fore.BLUE+Style.BRIGHT+t.previous+Style.RESET_ALL)
+            cheat.append(Fore.GREEN+Style.BRIGHT+i.find('span').text)
+            #cheat.append('\n')
         print('_________________')
         prpr(cheat)
 
@@ -666,7 +668,7 @@ def main():
     global kek
     global debug
     global change_week
-    vers = 5.3
+    vers = 5.4
     if ns.verbose:
       debug = True
     if(ns.version):
