@@ -756,7 +756,8 @@ def main():
           print('Caching..')
           cachett()
       else:
-        print('Timetable is up to date')
+        #print('Timetable is up to date')
+        pass
         req = requests.get('https://raw.githubusercontent.com/maxan98/grasp/master/setup.py').content.decode('utf-8')
         ver = float(req[784:787])
         if vers < ver:
@@ -768,7 +769,8 @@ def main():
             else:
               print('Updated!')
         else:
-          print('App is up to date.')
+          #print('App is up to date.')
+          pass
 
 
     elif ns.offline:
