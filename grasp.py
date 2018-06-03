@@ -263,14 +263,18 @@ def parseonline(r):
       t5 = time.time()
     if week(r) == 0:
       if ns.nnac:
-        print(Fore.BLUE+Style.BRIGHT+'Сейчас нижняя неделя'+Style.RESET_ALL)
+        #print(Fore.BLUE+Style.BRIGHT+'Сейчас нижняя неделя'+Style.RESET_ALL)
+        pass
       else:
-        print(Fore.BLUE+Style.BRIGHT+'Сейчас ▼ неделя'+Style.RESET_ALL)
+        #print(Fore.BLUE+Style.BRIGHT+'Сейчас ▼ неделя'+Style.RESET_ALL)
+        pass
     elif week(r) == 1:
       if ns.nnac:
-        print((Fore.RED+Style.BRIGHT+'Сейчас верхняя неделя'+Style.RESET_ALL))
+        #print((Fore.RED+Style.BRIGHT+'Сейчас верхняя неделя'+Style.RESET_ALL))
+        pass
       else:
-        print(Fore.RED+Style.BRIGHT+'Сейчас ▲ неделя'+Style.RESET_ALL)
+        #print(Fore.RED+Style.BRIGHT+'Сейчас ▲ неделя'+Style.RESET_ALL)
+        pass
     else:
       print('У меня траблы с определением недели')
     Soup = BeautifulSoup(r, 'html.parser')
@@ -293,11 +297,14 @@ def parseonline(r):
       if i == 'Вне сетки расписания':
         lenofday -= 1
     if lenofday == 1:
-      print("Учимся всего", lenofday, "день")
+      #print("Учимся всего", lenofday, "день")
+      pass
     elif lenofday >=2 and lenofday < 5:
-      print("Учимся всего", lenofday, "дня")
+      #print("Учимся всего", lenofday, "дня")
+      pass
     elif lenofday >= 5:
-      print("Учимся всего", lenofday, "дней")
+      #print("Учимся всего", lenofday, "дней")
+      pass
 
 
 
@@ -615,6 +622,7 @@ def parseonline(r):
            prpr(d['sun'])
 
 def parseofline():
+  
   try:
     file = open(os.path.expanduser('~/cached/'+group),'r')
   except IOError:
@@ -661,9 +669,12 @@ def main():
     parser.add_argument('-w', '--week', default='2', help = 'Red, blue or whole week. EX. 0 = blue lower, 1 = red upper, 2 = whole c = current')
     parser.add_argument('-N','--nnac',help = 'removes non non-ascii-characters',action='store_true')
     parser.add_argument('-s','--session',help = 'Session timetable. Works only like grasp -os(g)xxxx',action='store_true')
+    parser.add_argument('-l','--local',help = 'Local cache storage',action='store_true')
     global ns
     ns = parser.parse_args()
     global session
+    global local
+    local = ns.local
     session = ns.session
     global group
     global nweek
@@ -774,7 +785,8 @@ def main():
           print('Caching..')
           cachett()
       else:
-        print('Timetable is up to date')
+        #print('Timetable is up to date')
+        pass
         req = requests.get('https://raw.githubusercontent.com/maxan98/grasp/master/setup.py').content.decode('utf-8')
         ver = float(req[784:787])
         if vers < ver:
@@ -786,7 +798,8 @@ def main():
             else:
               print('Updated!')
         else:
-          print('App is up to date.')
+          #print('App is up to date.')
+          pass
 
 
     elif ns.offline:
