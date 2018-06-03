@@ -326,6 +326,11 @@ def parseonline(r):
     global d
     pattern = re.compile('Понедельник')
     columns = Soup.find(text=pattern)
+    if isinstance(columns, NavigableString):
+             pass
+    elif if isinstance(columns, NoneType):
+            pass
+    else:
     columns = columns.next
     #columns = columns.next
    # print( columns.next.text)
@@ -668,12 +673,25 @@ def main():
     global kek
     global debug
     global change_week
-    vers = 5.4
+    vers = 5.5
     if ns.verbose:
       debug = True
     if(ns.version):
       print('Version:',vers)
       exit()
+    if os.path.exists(os.path.expanduser('~/cached/e.ini')):
+        name = open(os.path.expanduser('~/cached/n.ini'),'r')
+        print('Welcome,',name.read())
+        name.close()
+    else:
+        name = input("Hi! Looks like u'r using SUAI Timetable the first time.\n Please tell me what's your name to make our communication better :)\n ---> ")
+        email = input("Great! And your email to get in touch with with all updates)\n --->")
+        namef = open(os.path.expanduser('~/cached/n.ini'),'w')
+        namef.write(name)
+        emailf = open(os.path.expanduser('~/cached/e.ini'),'w')
+        emailf.write(email)
+        namef.close()
+        emailf.close()
     if(ns.onlineversion):
       req = requests.get('https://raw.githubusercontent.com/maxan98/grasp/master/setup.py').content.decode('utf-8')
       ver = float(req[784:787])
