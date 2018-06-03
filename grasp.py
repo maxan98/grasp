@@ -335,7 +335,7 @@ def parseonline(r):
     columns = Soup.find(text=pattern)
     if isinstance(columns, NavigableString):
              pass
-    elif if isinstance(columns, NoneType):
+    elif isinstance(columns, NoneType):
             pass
     else:
     columns = columns.next
@@ -622,7 +622,7 @@ def parseonline(r):
            prpr(d['sun'])
 
 def parseofline():
-  
+
   try:
     file = open(os.path.expanduser('~/cached/'+group),'r')
   except IOError:
@@ -684,7 +684,7 @@ def main():
     global kek
     global debug
     global change_week
-    vers = 5.5
+    vers = 5.6
     if ns.verbose:
       debug = True
     if(ns.version):
