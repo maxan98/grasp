@@ -335,7 +335,7 @@ def parseonline(r):
     columns = Soup.find(text=pattern)
     if isinstance(columns, NavigableString):
         pass
-    elif isinstance(columns, None):
+    elif columns is None:
         pass
     else:
         columns = columns.next
