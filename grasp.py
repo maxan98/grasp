@@ -334,11 +334,11 @@ def parseonline(r):
     pattern = re.compile('Понедельник')
     columns = Soup.find(text=pattern)
     if isinstance(columns, NavigableString):
-             pass
+        pass
     elif isinstance(columns, NoneType):
-            pass
+        pass
     else:
-    columns = columns.next
+        columns = columns.next
     #columns = columns.next
    # print( columns.next.text)
    # print(columns)
