@@ -244,8 +244,12 @@ def site():
     r = requests.get("http://rasp.guap.ru/").content.decode('utf-8')
     soup = BeautifulSoup(r, "html.parser")
     select = soup.find('option',text=group)
-    group_prefix = select.attrs['value']
-
+    group_prefix = ""
+    try:
+      group_prefix = select.attrs['value']
+    except:
+      print("Looks like site (rasp.guap.ru) is temporary unavailable. Check later or use offline mod.")
+      exit()
     r = requests.get("http://rasp.guap.ru/?g="+group_prefix).content.decode('utf-8')
     if debug:
       print('site',time.time()-t4)
@@ -684,7 +688,7 @@ def main():
     global kek
     global debug
     global change_week
-    vers = 5.6
+    vers = 5.7
     if ns.verbose:
       debug = True
     if(ns.version):
