@@ -1,8 +1,4 @@
-## UPD.> iOS shortcut command integration.
-## PISHI VK SKAZHU KAK 
-![lt6kh7c7g3i](https://user-images.githubusercontent.com/24477803/47880421-4c071b80-de34-11e8-936d-07b365fb5a14.jpg)
-![uzip7eydjfm](https://user-images.githubusercontent.com/24477803/47880417-47dafe00-de34-11e8-9143-78146aac5117.jpg)
-***
+
 
 
 НИКОГДА СЛЫШИШЬ НИКОГДА НЕ СМОТРИ КОД ЭТОГО ЧУДА, У ЭТОЙ КАКАШКИ КУЧА ФИЧ И ОНА ИСПОЛЬЗУЕТСЯ КАК В ВК БОТЕ ТАК И В ДИАЛОГАХ АЛИСЫ, шорткатах iOS И МНОГО ГДЕ ЕЩЕ.. И Я КАЖДЫЙ РАЗ СТРАДАЮ ВПИХИВАЯ ЭТО ТУДА. ОЧ ПОЛЕЗНАЯ ШЛЯПА, НО ЖУУУУУУУУУУУТКИЙ КОД, НЕ СМОТРЕТЬ!
