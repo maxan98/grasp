@@ -674,7 +674,7 @@ def main():
     parser.add_argument('-w', '--week', default='2', help = 'Red, blue or whole week. EX. 0 = blue lower, 1 = red upper, 2 = whole c = current')
     parser.add_argument('-N','--nnac',help = 'removes non-ascii-characters',action='store_true')
     parser.add_argument('-s','--session',help = 'Session timetable. Works only like grasp -os(g)xxxx',action='store_true')
-    parserarg.add_argument('-l','--local',help = 'Prints Local cache storage path and exit',action='store_true')
+    grouparg.add_argument('-l','--local',help = 'Prints Local cache storage path and exit',action='store_true')
     global ns
     ns = parser.parse_args()
     global session
