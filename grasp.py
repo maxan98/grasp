@@ -660,14 +660,15 @@ def cachett():
 def main():
     init()
     parser = createParser()
-    parser.add_argument('-o','--online',help=Fore.RED+Style.BRIGHT+'[REQUIRED] Online'+Style.RESET_ALL+' mod',action='store_true')
-    parser.add_argument('-f','--offline',help=Fore.RED+Style.BRIGHT+'[REQUIRED] Offline'+Style.RESET_ALL+' mod',action='store_true')
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('-o','--online',help=Fore.RED+Style.BRIGHT+'[REQUIRED] Online'+Style.RESET_ALL+' mod',action='store_true')
+    group.add_argument('-f','--offline',help=Fore.RED+Style.BRIGHT+'[REQUIRED] Offline'+Style.RESET_ALL+' mod',action='store_true')
     parser.add_argument('-c','--cache',help=Fore.RED+Style.BRIGHT+'[REQUIRED] Cache '+Style.RESET_ALL+'timetable',action='store_true')
     parser.add_argument('-t','--today',help=Fore.RED+Style.BRIGHT+'Today\'s'+Style.RESET_ALL+' timetable',action='store_true')
     parser.add_argument('-G','--gui',help='Run with GUI(ALPHA! Very unstable!)',action='store_true')
     parser.add_argument('-V','--version',help = 'prints version and exit',action='store_true')
-    parser.add_argument('-ov','--onlineversion',help = 'prints version stored in online repository and exit',action='store_true')
-    parser.add_argument('-v','--verbose',help = 'Verbose output. Debug info.',action='store_true')
+    group.add_argument('-ov','--onlineversion',help = 'prints version stored in online repository and exit',action='store_true')
+    group.add_argument('-v','--verbose',help = 'Verbose output. Debug info.',action='store_true')
     parser.add_argument('-g', '--group', default='5512', help= 'Your group number. DEFAULT = 5512')
     parser.add_argument('-d', '--dz', default='whole', help = 'Day of week. EX.'+Fore.RED+Style.BRIGHT+'TOMORROW(tom)'+Style.RESET_ALL+', MONDAY(mon), TUESDAY(tue), WEDNESDAY(wed) ans so on..')
     parser.add_argument('-w', '--week', default='2', help = 'Red, blue or whole week. EX. 0 = blue lower, 1 = red upper, 2 = whole c = current')
@@ -688,7 +689,7 @@ def main():
     global kek
     global debug
     global change_week
-    vers = 5.7
+    vers = 5.8
     if ns.verbose:
       debug = True
     if(ns.version):
