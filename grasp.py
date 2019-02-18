@@ -13,7 +13,7 @@ from colorama import init
 import time
 import pickle
 import subprocess
-from tui import *
+#from tui import *
 
 session = False
 debug = False
