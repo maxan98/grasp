@@ -18,7 +18,6 @@ import pickle
 import subprocess
 #from tui import *
 
-sys.setdefaultencoding('utf8')
 session = False
 debug = False
 d = {'mon':[],'tue':[],'wed':[],'thu':[],'fri':[],'sat':[],'sun':[]}
