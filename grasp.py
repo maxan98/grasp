@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 # encoding=utf8
 import sys
-reload(sys)
-sys.setdefaultencoding('utf8')
+
 
 import os
 import re
@@ -19,6 +18,7 @@ import pickle
 import subprocess
 #from tui import *
 
+sys.setdefaultencoding('utf8')
 session = False
 debug = False
 d = {'mon':[],'tue':[],'wed':[],'thu':[],'fri':[],'sat':[],'sun':[]}
