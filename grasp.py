@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
+# encoding=utf8
 import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 import os
 import re
 import time
@@ -182,7 +186,7 @@ def prpr(d):
         if isinstance(i, NavigableString):
           continue
         i.remove(';')
-      print(i.encode('utf-8').decode('utf-8'),sep='\n')
+      print(i,sep='\n')
 
 def parsesession():
         if debug:
