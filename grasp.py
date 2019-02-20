@@ -182,7 +182,7 @@ def prpr(d):
         if isinstance(i, NavigableString):
           continue
         i.remove(';')
-      print(i.encode('utf-8'),sep='\n')
+      print(i.encode('utf-8').decode('utf-8'),sep='\n')
 
 def parsesession():
         if debug:
