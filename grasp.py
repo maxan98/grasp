@@ -397,6 +397,8 @@ def parseonline(r):
       if len(i) == len(group):
         d['mon'].remove(i)
     for i in d['tue']:
+      if i.find('Группа:') != -1:
+        d['tue'].remove(i)
       if len(i) == len(group):
         d['tue'].remove(i)
     for i in d['wed']:
