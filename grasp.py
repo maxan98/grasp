@@ -394,6 +394,8 @@ def parseonline(r):
 # Баг с подсчетом кол-ва дней. Если есть ВНЕ СЕТКИ РАСПИСАНИЯ ПУНКТ - СЧИТАЛ НЕ ВЕРНО СУКА (FIXED)
 # Раскрашиваем аутпут
     for i in d['mon']:
+      if i.find('Группа:') != -1:
+        d['mon'].remove(i)
       if len(i) == len(group):
         d['mon'].remove(i)
     for i in d['tue']:
@@ -402,10 +404,14 @@ def parseonline(r):
       if len(i) == len(group):
         d['tue'].remove(i)
     for i in d['wed']:
+      if i.find('Группа:') != -1:
+        d['wed'].remove(i)
       if len(i) == len(group):
         if i != 'Среда':
           d['wed'].remove(i)
     for i in d['thu']:
+      if i.find('Группа:') != -1:
+        d['thu'].remove(i)
       if len(i) == len(group):
         d['thu'].remove(i)
     for i in d['fri']:
@@ -694,7 +700,7 @@ def main():
     global kek
     global debug
     global change_week
-    vers = 5.8
+    vers = 5.9
     if ns.verbose:
       debug = True
     if(ns.version):
