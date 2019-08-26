@@ -84,7 +84,7 @@ def customizetimetabletomatchcurrentweek(mode, day):
       todel.append(d[day].index(elem))
   smth = []
   for elem in d[day]:
-    if '5512' in elem:
+    if '5910М' in elem:
       smth.append(d[day].index(elem))
   #print(smth,'smth')
   ### удаляем время пар когда нужно
@@ -680,7 +680,7 @@ def main():
     parser.add_argument('-V','--version',help = 'prints version and exit',action='store_true')
     grouparg.add_argument('-ov','--onlineversion',help = 'prints version stored in online repository and exit',action='store_true')
     grouparg.add_argument('-v','--verbose',help = 'Verbose output. Debug info.',action='store_true')
-    parser.add_argument('-g', '--group', default='5512', help= 'Your group number. DEFAULT = 5910М')
+    parser.add_argument('-g', '--group', default='5910М', help= 'Your group number. DEFAULT = 5910М')
     parser.add_argument('-d', '--dz', default='whole', help = 'Day of week. EX.'+Fore.RED+Style.BRIGHT+'TOMORROW(tom)'+Style.RESET_ALL+', MONDAY(mon), TUESDAY(tue), WEDNESDAY(wed) ans so on..')
     parser.add_argument('-w', '--week', default='2', help = 'Red, blue or whole week. EX. 0 = blue lower, 1 = red upper, 2 = whole c = current')
     parser.add_argument('-N','--nnac',help = 'removes non-ascii-characters',action='store_true')
